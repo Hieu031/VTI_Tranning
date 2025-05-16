@@ -1,0 +1,93 @@
+Composition is a software component type that clusters or aggregates other software components or compositions
+
+in simple terms, a composition could be understood as a container that can hold a group of software
+
+components.
+
+Now the connectors
+
+We have been seeing from the last examples that communication is established through ports and data
+
+is passed from the provider port to the receiver port.
+
+In a live system, you might have thousands of provider ports and receiver ports and who's connected
+
+with whom is decided from the connector configuration.
+
+A connector can be of either one of these three types assembly connector, delegation connector
+
+and Pass through Connector.
+
+We shall see how to use these connectors with an example.
+
+Let's take two software components that has a sender receiver and a client server communication with
+
+the two provider and two receiver ports.
+
+And we shall place them under a composition called Composition One.
+
+To connect these two ports, we can use a simple assembly connector.
+
+An assembly connector is used to connect to ports within the same composition.
+
+This is the assembly configuration will look like.
+
+An Assembly connector will find a provider and a receiver port within it.
+
+Above in the configuration, we could see the composition software component for composition one created,
+
+and this encapsulate these two Software components, SWC 1 and SWC 2.
+
+Let's consider we have another component in the system called software component 3, and this is placed
+
+within a new composition called Composition 2.
+
+If you have a closer look, we could notice that composition 2 encapsulates composition 1 as well,
+
+like defined a composition, can have both components and compositions.
+
+Again, the same example.
+
+We have two ports from software Component 3 to be connected to component 1 and component 2.
+
+We can't make a direct assembly connection here since both as different parent composition's.
+
+The rule for using an assembly connector is that, the ports to be connected from softer components
+
+should have the same parent composition.
+
+From our example, the parents of the Component 1 and software component 2 are Composition 1
+
+software component three's parent is Composition 2 and hence an assembly cannot be used here.
+
+To do this will have to extend the existing ports to the outer composition using delegation Connector's.
+
+So component 1 and 2 have their ports extended to the composition using a delegation connector and
+
+now composition 1 has these ports defined in it.
+
+A sample configuration on how it looks like the configuration file is here.
+
+A delegation connector extends the inner port from the components to the outer composition.
+
+A new mirror port is also created on the outer composition and the delegation connector connects this outer port to
+
+the inner port of the component.
+
+Let's look again now if the connection is possible.
+
+The opposite connecting ports of the software component 3 are now available within the same parent, and we
+
+can now have an assembly connector between composition 1 and software component 3.
+
+The connection is complete now.
+
+An additional difference between these two connectors are that an assembly connector connects a provider
+
+and a receive port, but a delegation connector connects the same port, either provider to provider
+
+or receiver to receiver.
+
+Every port connection should finally end with an assembly connector configuration.
+
+Hope it's clear on when to use an assembly or a delegation connector.

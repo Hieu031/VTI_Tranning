@@ -1,0 +1,14 @@
+SWC - Sortware Components in AUTOSAR
+1. Trong AUTOSAR, một SWC được hiểu là một đơn vị phần mềm có thể được phát triển, kiểm thử và triển khai một cách độc lập.
+2. Một số loại SWC:
+	- Application SWC: là một sub-module cung cấp tất cả các chức năng của ECU Software. 
+	- Analog Handler SWC: là SWC chịu trách nhiệm xử lý giao tiếp với các cảm biến hoặc cơ cấu chấp hành tương 	tự.
+	- Digital Handler SWC: là SWC chịu trách nhiệm xử lý giao tiếp giữa các thiết bị vào ra dạng số như các chân 
+	VDK hoặc các giao thức giao tiếp truyền thông số (UART, SPI, I2C,...)
+	- Parameter SWC: là một module phần mềm với mục đích lưu trữ, quản lý các tham số cấu hình cho các SWC khác 	nhau trong hệ thống.
+	- Composition SWC: là một module phần mềm để kết hợp các SWC khác thành một đơn vị logic, thường để triển 	khai một chức năng hoặc service cụ thể mà hệ thống yêu cầu.
+	- Service SWC: là một SWC cung cấp các dịch vụ cho các SWC khác trong hệ thống có thể truy cập thông qua giao	diện được tiêu chuẩn hóa.
+	- Service proxy SWC: Cung cấp quyền truy cập vào Service được cung cấp bởi một SWC khác trong cùng một ECU 	hoặc ECU khác.
+	- ECU Abstraction SWC: Cung cấp giao diện được tiêu chuẩn hóa để truy cập tài nguyên phần cứng và phần mềm 	trên ECU.
+	- Nvblock (Non-Volatile) SWC: Cung cấp quyền truy cập vào vào một vùng nhớ cụ thể của bộ nhớ Non-Volatile 	(như EEPROM hoặc Flash). Dùng để lưu trữ dữ liệu khi mất nguồn.
+	- CDD SWC: là một SWC xác định giao diện và hành động của một thành phần cụ thể trong AUTOSAR.Dùng để cung 	cấp thông tin của thành phần này cho thành phần khác trong hệ thống.

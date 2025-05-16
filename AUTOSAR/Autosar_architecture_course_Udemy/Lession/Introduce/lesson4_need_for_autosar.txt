@@ -1,0 +1,85 @@
+We just saw who the members of the Autosar organization are and would defines such standards for the automotive
+
+industry. So why do we need such huge standards to be defined for the automotive industry?
+
+To understand this, let us get back to the late 1980s, this was the period where electronics started
+
+to pitch into our vehicle. We had small control units controlling a critical vehicle systems like
+
+the injection, combustion, etc..
+
+Later as years progressed, the amount of control units in the vehicle started to expand.
+
+Example, we had ABS that was controlled by an ECU, the gearbox being controlled by another control
+
+unit and so on.
+
+It didn't stop here by 2005, we had a lot of advanced electronic controlled options introduced.
+
+Critical safety systems like airbag demanded precisely controlled electronics, fuel saving features like start
+
+stop functionality, sophisticated features like auto parking or the software update and many more.
+
+Now, by 2021, the electronics have grown to a greater extent, like connected vehicles, advanced
+
+driving assist system for self-driving cars, and it's still expanding.
+
+Considering such advancements in the automotive industry, with all electronics taking major control,
+
+there is a demand that also electronic control units work together in a standardized way.
+
+So what problem do we have with an non Autosar software?
+
+This is an example of how a normal or not Autosar software would look like.
+
+The application software for the end functionality is written for a specific hardware or a microcontroller.
+
+This makes a tight bonding between the hardware and software together.
+
+So having this in mind, let's put a few questions.
+
+If the customer wants to change the hardware or the controller for some reason, will it be easy?
+
+He has to spend a huge cost once again to redevelop the application software to fit the new hardware.
+
+Customers will have a tough time in such a case.
+
+And let's consider it from the suppliers point, a supplier has written an application software and
+
+he wants to sell it to different customers.
+
+How easy it is ?
+
+Since the end customer can run this application on any ECU, it's not easy that a supplier writes
+
+a suitable application code that fits every hardware.
+
+So it's not easy from the supplier's point as well.
+
+Autosar standards come in to solve such huge issues. In general Autosar provides an easy handling
+
+for complex automotive software.
+
+Flexibility of the software development is increased through abstraction. Autosar standards clearly
+
+separate the hardware and software, making it easy for the application developer?
+
+Softwares developed can be reused across different vehicles or shared across customers without much effort
+
+.
+
+Autosar provides a way that development can be distributed among suppliers leading way to parallel development
+
+and getting fast to the market.
+
+Easy plug and play of software are offered by Autosar. Customers can make the best available software
+
+in the market from different suppliers.
+
+As a result, the best innovative solution stays in the market.
+
+How this all happens or is possible is what you're going to see as the course progresses.
+
+To make this understanding easy, by the end of the course, we shall review back the same advantages once again.
+
+once again.

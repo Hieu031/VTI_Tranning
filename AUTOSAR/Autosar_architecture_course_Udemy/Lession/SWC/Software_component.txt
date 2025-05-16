@@ -1,0 +1,191 @@
+We have been talking about the application software component on the ASW layer for quite some time.
+
+We shall go a step further into the topic now and try to understand what it really consists of.
+
+The ASW layer within Autosar is organized and self-contained unit called atomic software component
+
+types.
+
+An atomic software component type represents a functional implementation of the application.
+
+Such small collection of software components together form the complete functional implementation of
+
+the system.
+
+A software component can be further categorized to atomic software component, type, parameter component
+
+and composition software component type.
+
+The atomic software component type can pick any one of the mentioned seven component types based on
+
+the functionality.
+
+We shall see each and every component in detail and understand when and where to use them.
+
+The application software component type will be the most predominantly used atomic software component
+
+in an application.
+
+This component is generic and will hold different functionalities of the software for example, performing
+
+calculations, decision making, etc..
+
+A real example to mention here, if you take a start/stop functionality, an application software component
+
+can hold the algorithm to calculate and decide when to stop the vehicle and start the vehicle automatically.
+
+Such functional implementations can be placed in the application software component.
+
+NV Block software component is used, whenever we have a requirement to save critical information,
+
+in the hardware memory that needs to be reused in future.
+
+This component type acts as a bridge for the application software to access the NNM manager of the basic software
+
+software.
+
+To explain in general about NVM, NVM stands for nonvolatile memory that can keep the stored data
+
+even after power off and can be restored during power on.
+
+Example, if an application software component is responsible for calculating the total kilometers that
+
+the vehicle has traveled, it needs to save this information to the NVM memory during shutdown and they
+
+restore it back at the next driving cycle.
+
+At this case, we can introduce the NVM block software component and access the kilometers variable
+
+that is calculated in the application software component and pass it on to the NVM manager.
+
+The NVM manager in the base software will further be responsible to save it to the NVM memory and restore
+
+it back to the application during startup.
+
+CDD or the complex device driver, is a specalized layer provided from Autosar in case the application
+
+need to access the hardware in a faster way.
+
+It's mainly when we have time critical features, where the communication passing through different layers
+
+would consume time.
+
+It also acts as a layer to access few standardised interfaces from the base software that Autosar has
+
+not specified to access from the application layer.
+
+Example, activating the air bag, fuel injector can be time-critical.
+
+In such case, if the message passed through the BSW layer is consuming additional delay, then CDD
+
+can be used here to pass the information from application to the microcontroller directly through RTE.
+
+Please note that RTE is not bypassed at any case and all information should flow through it, even though
+
+it's time-critical application.
+
+A service component is mainly used from the based software to provide services to the application layer.
+
+The service component takes few special rules that they can be part of the system composition and they
+
+are very bound to the ECU level.
+
+For example, if you pick up the base software module like the base software manager or the diagnostics
+
+event manager
+
+They provide services to the application software and they can be modelled as a service software component type
+
+type.
+
+A service proxy component is used if a particular service is to be used from a different ECU.
+
+Autosar Methodology says that an application component can be dynamically placed on different ECU's during
+
+system level configuration and in this case the access to the base software services might be from another
+
+ECU to access.
+
+In such use cases service proxy components can be used.
+
+Easy abstraction software component is a part of the software that access and interface between the
+
+MCAL layer and the application layer.
+
+A microcontroller inside an ECU may have many external peripherals to access like H-Bridge IC's,
+
+power stage IC's etc..
+
+To access and write drivers for such external peripherals, ECU abstraction software component is used
+
+used.
+
+We can have multiple ECU abstraction components in the software and this purely depends on the number
+
+of external peripherals we have.
+
+A sensor actuator software component is the opposite end of the easy abstraction software component
+
+from the application side.
+
+This component access an interface between the external sensors or actuators to the other application
+
+components.
+
+This software component takes care of the sensor data conversions from the raw data provided from the
+
+Sensors. For the Actuators it takes care of the sequence and controlling the external actuators based
+
+on the input commands from the application.
+
+A Parameter Software component is used to provide calibrations for a project.
+
+These calibration parameters that are provided from this component can be used in all the other software
+
+components.
+
+This software component is a bit special compared to the other components with few unique rules.
+
+The parameter software component cannot have a C file associated with it, and it's only a configuration.
+
+Hence, this component cannot have a functional implementation or contribute functionally to the project.
+
+This component cannot have a Receiver Port, and has only Provider Ports to provide calibration alone
+
+alone.
+
+Ports are a different topic, which will be explained later, but as of now, we can just keep this
+
+in mind and just continue.
+
+Let's pick an example here.
+
+In case we need to switch on the head light automatically when it's dark, we could use this component
+
+to provide a calibration parameter with a light intensity cutoff value.
+
+This calibration can be used by the other application component to determine when to activate the light
+
+based on the light intensity.
+
+The light intensity cut off calibration can be then fine-tuned during vehicle production.
+
+So such kind of calibrations inside a project can be clustered into the parameter software component.
+
+Composition software component is again a non-functional component type. This can be imagined as
+
+containers in simple terms that can have an aggregation or a collection of software components.
+
+They are used to cluster components based on functionality . A composition can also cluster other compositions as well.
+
+.
+
+Compositions do not have a separate implementation C file, but it has an important set of configuration
+
+of the components it holds and communications between them.
+
+We shall see about the composition software component in detail later, along with the Connectors configuration
+
+that it has.
+
+

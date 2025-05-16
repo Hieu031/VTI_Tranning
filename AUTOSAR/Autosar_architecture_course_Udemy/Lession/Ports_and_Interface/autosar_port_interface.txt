@@ -1,0 +1,127 @@
+We were talking about software components communicating among each other.
+
+We shall see this in-depth on how they really communicate.
+
+Ports are the connecting points for communication.
+
+as per the Autosar concept.
+
+They are responsible for carrying information across the components.
+
+The Autosar standards specify that we have three possible Port types.
+
+Provider port or the P-Port.
+
+Receiver port or the R-Port.
+
+Provider Receiver Port or the PR-Port.
+
+Each Port mentioned has its own responsibility to do.
+
+The provider port is used when there is an information that has to be sent from a software component.
+
+A receiver port is the opposite to the provider and is used when we need to receive some information from
+
+other components. The PR Port or the provider receiver port has a mixed property of both, and is used
+
+to send and receive the same information from a component simultaneously.
+
+On what kind of information is actually carried across by the ports is defined by the port interface
+
+interfaces.
+
+We have around six type of interfaces that can be chosen based on the information that is communicated.
+
+The sender receiver interface, client server interface, NV data interface, parameter interface,
+
+Mode Switch interface and the trigger interface.
+
+A sender receiver interface is used for communicating data between ports.
+
+Data can be any information in terms of primitive or complex types. example, variables of type integer,
+
+float, structures, arrays, etc..
+
+To send such data a component should have a provider port defined with a sender receiver port interface.
+
+On the receiving side to receive a data, it should have a receiver port with the same sender receiver
+
+definition.
+
+A client server interface is used to communicate or access services from other component.
+
+For example, if a particular component has a function and this has to be called from other software component,
+
+then a client server port interface can be used.
+
+In such cases, the component that owns the function itself will be called the server, and this will
+
+have to provider port.
+
+The caller or the user to this function on another component will be called as client and will own a
+
+receive port.
+
+Usually in a project, client server and sender receiver interfaces will be the major ones being used.
+
+Hence we will see these two interfaces in more detail as the course progresses.
+
+NV data interface is used by NV block software components to communicate iNVM interfaces to other
+
+components, meaning any nonvolatile interface that is communicated to the NV block software component
+
+should be taking this type of interface.
+
+To write a data to the NV block or provider port is used from the application software component and
+
+at the NV block software component, a receiver port will be used to receive it.
+
+And similarly the opposite,
+
+When a data has to be restored from the NVM memory, the NV block software component will have a provider port
+
+port with the NV interface,
+
+and this will be received by other software components with the opposite receiver put on its end.
+
+Parameter interfaces are used to exchange calibration parameters across components.
+
+It's not only limited to be used for calibration alone, but this type of interface can be used for
+
+data interfaces as well which are constant or will not be changed or written during run time. A parameter software
+
+component is mainly used to share calibration parameters to other components through this interface type
+
+type.
+
+Mode switch interface is used in a system when there are predefined system states for a functionality
+
+We can take few examples to understand this.
+
+If you take the states of a vehicle headlight, we would define that it can be either one of the states
+
+like OFF or ON with High beam or ON with Low beam.
+
+In such use cases, a mode switch interface can be used and are component who calculates and decide on which
+
+mode the light should be will be the provider port, and the using component that takes action based on
+
+the decision will be the receiver port.
+
+Trigger interface is used to trigger functionality on the component when an event occurs.
+
+If we have a use case that function has to run only at certain times at particular events that is decided
+
+from another component, then this interface can be used.
+
+The component that makes the trigger decision will be the provider port and the component that has
+
+the functionality to be triggered or expects a trigger from outside will be the receiver port.
+
+Among these interfaces, like already mentioned, we shall look into the sender receiver and
+
+client server interface in more detail which will be the major use case in a software.
+
+Please also make a note of the unique icons of every port interface. Going further we will be representing
+
+the port and its interfaces based on these icons.

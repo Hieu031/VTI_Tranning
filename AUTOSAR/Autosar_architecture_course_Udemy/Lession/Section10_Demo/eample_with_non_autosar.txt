@@ -1,0 +1,137 @@
+With case Non-Autosar
+
+void ApplicationFunction()
+{
+	Codefor: ADC Pin initialize
+	Codefor: IO Pin Initialize
+	Codefor: H-Bridge IC Initialize
+	
+	while(1)
+	{
+		Codefor: StartADCConversion
+		Result = ReadADCValues;
+		Temperature = Result * 0.5; // Raw to Degree C
+		
+		if(Temperature >= 50)
+		{
+			IN1_PIN = 1; // Switch ON Motor
+			IN2_PIn = 0;
+		}
+		else
+		{
+			IN1_PIN = 0; // Switch OFF Motor
+			IN2_PIn = 0;
+		}
+	}
+}
+
+
+We are at the final part of the training, and it's time to see a real demo with a practical use case
+
+example with what we have learned so far.
+
+Before we look into the Autosar solution, it would be first good to know how a non Autosar software implementation
+
+would look like and see its drawbacks.
+
+This will help us to understand the need for Autosar while we see the demo with an Autosar software later.
+
+Let's take the simple requirement to case for a radiator cooling fan.
+
+The ECU should switch on the cooling fan when the temperature of the coolant in the radiator crosses 50 degrees
+
+50 degrees.
+
+In our case, the hardware consists of a temperature sensor that's connected to the analog pin of the controller
+
+In our case, the hardware consists of a temperature sensor that's connected to the analog pin of the controller
+
+To control the cooling fan, the ECU has a H-Bridge IC, that's connected to the controller's digital IO Pin
+
+.
+
+Like mentioned, we will first see this example with a non Autosar software.
+
+In a typical non Autosar software will not have any configuration as such and will only the C Codes as it is
+
+.
+
+Considering only the C file, let's imagine the software will look something like this.
+
+We have an application function that implements its functionality.
+
+To begin with, the C Code will first need to configure the controller pins on the register level and
+
+initialize the ADC.
+
+Then configure the IO Pins to control the H-Bridge and initialize the H-Bridge IC.
+
+Then the main functionality would start in the infinite loop where we start the ADC conversion and calculate
+
+the temperature.
+
+If the temperature crosses 50 degrees, we'll set the Io Pins of the H-Bridge accordingly to turn the
+
+motor ON.
+
+And if the temperature is lower, we switch OFF the motor.
+
+This is quite simple, and that application code is complete.
+
+Let's consider some unfortunate use cases that will happen in the automotive industry.
+
+Now, due to some reasons that ECU manufacturer or supplier changes the microcontroller in the ECU.
+
+The impact on the application code we have is quite huge since we directly access the control registers
+
+in our software.
+
+We will have to rework on all the parts of the code where we directly access the controller like the
+
+code to initialize the hardware pins and handle the ADC conversions.
+
+This is just one simple use case example that we are seeing.
+
+In a real time system there might be thousands of such functionalities that are handled from an ECU.
+
+And just imagine if you have to do such modification on all the functionalities that we have.
+
+The cost of the redevelopment and the time that it takes to do it will be too huge that a customer will
+
+not be happy about it.
+
+Now, let's imagine another use case where the cooling fan is changed to have more cooling power.
+
+Surely this will impact the H-Bridge and we have to change it to a higher power rating.
+
+In such case, to the C Code has to be modified on the application level to match the new H-Bridge IC.
+
+Meaning any change in any parts of the hardware will lead to a very big redevelopment cost on the application software
+
+software.
+
+To summarize the non Autosar software, we could say that the application software and the hardware are tightly coupled.
+
+In case there is any small hardware change, it would lead to a huge redevelopment cost on the application software
+
+.
+
+The next disadvantage here is that just imagine if a customer wants to reuse his developed software on
+
+different ECU's
+
+That is also not going to be possible easily since the hardware would change and a rework is needed.
+
+Once the software is developed and in production, the customer is purely dependent on a single supplier
+
+of the Hardware ECU.
+
+And he has no choice to easily switch in future in case the cost of the ECU has increased or if he sees
+
+another better ECU in the market.
+
+To conclude, although the software looks short and simple, the classic non Autosar software will not suit
+
+live automotive environment nowadays due to all these drawbacks.
+
+

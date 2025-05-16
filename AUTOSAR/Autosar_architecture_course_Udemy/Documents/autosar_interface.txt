@@ -1,0 +1,49 @@
+The Autosar standards categorize interfaces into three different categories. Autosar interfaces, standardized
+
+Autosar interfaces and standardized interfaces.
+
+And Autosar interface is a generic interface which is derived from the configurations.
+
+Autosar interfaces are provided by the RTE and serve as an interface between application software
+
+or between application software and the base software like hardware abstraction or complex device drivers.
+
+For example, an application software might read input values and write output values via these interfaces
+
+it can use to read or write APIs, which is derived from the configurations, and we shall see this
+
+in more detail as the course progresses.
+
+Standardized Autosar interface is a special Autosar interface predefined by the standard.
+
+These type of interfaces are used by application software for access to our services, which are provided
+
+by the BSW modules of the service layer, such as the ECU state manager or the diagnostics manager.
+
+A standardized interface is an interface which is predefined by the Autosar standard as an API in the C
+
+language.
+
+It is used between BMW modules in an ECU or between the RTE and the operating system or between the
+
+RTE and the BSW communication module.
+
+For example, let's take the MCAL layer.
+
+Autosar predefines a function API to use to read and IO pin, which is called the DIO_ReadChannel
+
+..
+
+These standardized interfaces can be accessed from other BSW layers to read a controller pin.
+
+It's quite hard to imagine and understand this completely at this point of time, but at the end of
+
+the course we shall see a live example, which I will once again specify these layer types which we saw now.
+
+.
+
+But for now, we shall just continue with a basic understanding on these three categories of interfaces
+
+that Autosar specify.
+
+

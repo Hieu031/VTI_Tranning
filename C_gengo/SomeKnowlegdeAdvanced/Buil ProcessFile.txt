@@ -1,0 +1,28 @@
+Buil Process - Quá trình build source code ra Binary
+
+Trong một chương trình trên máy tính (Window), các file source bao gồm .c, .h, .cpp sẽ trải qua các bước cơ bản
+
+1. Preprocessor
+ - Xử lý các chỉ thị tiền xử lý - thay thế các marco, thay thế nội dung file header vào các vị trí #include
+ - Xóa các comment
+ - Đầu ra của quá trình này là file extended source (.i/ .ii)
+
+2. Compilation 
+ - Các file source được compile bởi Compiler tạo file Assembly (.asm)
+ - Compiler thông dụng như GCC,...
+
+3. Assemble
+ - Các file .asm (từ bước trên / source file) tiếp tục được dịch bằng trình Assembler
+ - Đầu ra là các file object (.o)
+
+4. Linking
+ - Các file .o được link với các file thư viện tĩnh (.a / .lib) bởi trình linker.
+ - Đầu ra là file.exe cuối cùng để chạy.
+
+* Tuy nhiên, trong một chương trình C nhúng (Microcontroller) thì có một chút thay đổi
+1. Compiler không compile ra file ASM của máy tính nữa mà ở đây là Cross Compiler.
+ - Cross compiler: là một file cho phép chương trình chạy trên một máy tính rồi nạp và chạy trên một chip khác.
+
+2. Các file Object vẫn được link tới thư viện tĩnh,nhưng cần trải qua một bước nữa là "Locator", bước này dùng 1 file Linker Script để phân vùng nhớ cho vi điều khiển - khác với máy tính thì IDE và OS tự động Locator và ẩn đi file Liner Script này.
+
+3. File đích tạo ra không còn là .exe nữa mà là các file như .elf (dùng để execute & debug), các file định dạng khác như .hex/ .bin/ .srec/ .axf/...để nạp code và debug.

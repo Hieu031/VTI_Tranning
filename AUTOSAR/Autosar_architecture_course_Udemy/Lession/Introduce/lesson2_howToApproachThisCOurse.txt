@@ -1,0 +1,47 @@
+Before starting with the course, I have a short recommendation on the best way to approach this course
+
+to get an effective learning.
+
+Like already mentioned, the course can be divided into three categories, which is the Introduction, theory
+
+and the demo part.
+
+The Introduction will be quite generic on Autosar, which you'll be seeing first
+
+and next we get into the theoretical session where things get interesting and informative, here will be learning on
+
+what Autosar configuration is and its different features, methods, etc..
+
+And we'll also learn how to choose the right configurations for our application.
+
+During this theoretical session, we'll have lots of questions on the how to implement part, and this
+
+will be covered in the next demo session that follows.
+
+Autosar is quite a new conceptual topic, so please don't worry if something was not understandable
+
+in the theory as the demo will cover the same topics in a practical way.
+
+So consolidated three short hints from inside.
+
+Since this is a completely new concept, please take the course continuously without any gaps so we don't
+
+miss the continuation and understand Autosar better.
+
+Second, while we are at demo, please interrelate it with the corresponding topics that were seen in
+
+the theoretical session together.
+
+Third, in case you have any questions, please feel free to post them on the Q&A section and I'll answer
+
+them as quick as possible.
+
+Although it's an online course, we try to make it as interactive as possible.
+
+Wish you a good learning ahead on the course, and please do not forget to put the thumbs up as the course
+
+progresses and your valuable rating and feedback really matters.
+
+Thanks.
+
+And we shall get started.

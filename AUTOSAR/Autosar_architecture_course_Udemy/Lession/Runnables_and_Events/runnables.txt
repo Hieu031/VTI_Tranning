@@ -1,0 +1,167 @@
+Let's understand what a Runnable is,. Runnables or runnable entities are the smallest fragments of code
+
+that's defined on a component.
+
+In simple terms, they can be said as individual functions that are on a software component.
+
+Each function on the C file will have to be defined as Runnable in the Autosar configuration, and it
+
+should further specify the interface access within it. Further that runnable entities together with
+
+events configured are scheduled by the operating system.
+
+Some special rules with Runnables are that a composition software component or a parameter software component
+
+cannot have a runnable since they don't have an associated C file functionality within them.
+
+Let's take an example to understand this.
+
+For example, we have an Autosar C file like this that defines 4 set of functions "Sum,difference, multiplication and division"
+
+and division.
+
+Here these four functions are considered as runnables and will have to define a runnable configuration
+
+for all these four.
+
+Let's consider our software component as SWC_1, and within this we would define the Runnable function "Sum"
+
+.
+
+Similarly, we will define the runnable for the others as well.
+
+The runnable definition in the configuration should also contain the interfaces or ports that are accessed inside
+
+inside.
+
+The configuration side for Runnable will look like this.
+
+Runnable is defined within the tag called Runnable Entity.
+
+Within this, we could notice a data read access and data write access tag set that defines what
+
+interfaces we are going to read and write from this function.
+
+In this example of Sum of 2 numbers, we read the raw data from 2 receiver ports and this read from 2 ports
+
+X and Y are defined under Data-Read-Access.
+
+The result that's the sum of the two numbers are to be written back from this function and this is to
+
+be mentioned here and the Write-Access.
+
+The symbol tag that's mentioned from a Runnable entity is quite important as it defines the exact name
+
+of the function that's used in the C file.
+
+Further the operating system will use the symbol information to call this function accordingly.
+
+Along with the data read and write access information, there are other options as well that could
+
+be configured to describe the runnable in more detail.
+
+To make it easy, I clustered them based on their usage. First, if the Runnable is accessing any Sender Receiver Interface
+
+interface or any data interface, the below configurations are applicable.
+
+Before looking into this, we shall look into a new term called explicit and implicit type of communication.
+
+We have an option to mention the way we would look to write or read a port from other runnables
+
+Explicit communication means the data that's passing over ports are sent and received as it is,
+
+and RTE does not really care of message consistency, and just passes the message as it is between ports.
+
+The other one is implicit access, that takes care of message consistency across receivers by creating dedicated
+
+message buffers for each receiver.
+
+This is just the different ways we could configure RTE to communicate messages.
+
+Data read and write access is used for implicit communication, which means the RTE will take care
+
+of message consistency between sender and multiple receivers.
+
+In case we need an explicit kind of communication for our access to Ports, we use the other option
+
+data received by argument or value.
+
+Data send configuration is used for queued communications, where RTE creates a message queue to store the
+
+data from the sender and passes it on to the receivers when requested.
+
+The next category is for parameters that are accessed from the runnables.
+
+A parameter can only be read and cannot be written by the software, hence we have only parameter access
+
+tag that where we mention that we are going to read a calibration parameter from our function.
+
+Next for the mode switch ports we have two options to say either set a mode or access a mode port.
+
+In case we have a receiver port access to a mode port,
+
+then we are just going to access or read the modes and we just use mode access point configuration.
+
+In case we have a Provider port or a function is going to calculate the mode interface itself, then we configure
+
+it using a mode switch point.
+
+Local interface access should also be specified in Runnable in case we access them.
+
+They are covered within the Read local variable and write local variable tags.
+
+For local variables, there will not be any port associated with it, since they are not going to be
+
+sent or received from external components.
+
+Instead, we will have interfaces defined within the scope of the component, like an IRV or Inter Runner Variable
+
+that lie within the scope of the module.
+
+Such local interface access can be specified within this.
+
+Next, the client server interface.
+
+We should be specifying if we are accessing them.
+
+Like already seen in the client's explanation, a client can call the server either asynchronously or
+
+synchronously.
+
+This is configured here.
+
+In case the server is called synchronously, then a synchronous server call point is used to mention this.
+
+For the other asynchronous use case like we saw before, the server can be triggered and the results
+
+are later.
+
+To read the results later, we used the asynchronous server call Result Point.
+
+Next, the triggers.
+
+Triggers can be of two types, the internal or an external trigger.
+
+These triggers are associated with the trigger ports and can be configured based on the trigger interfaces.
+
+Some general properties should also be configured for runnables like "Can be in concurrently" option, that
+
+takes a true or false input that mentions if the runnable is allowed to be called recursively or parallely
+
+on different tasks.
+
+This is important
+
+while the operating system is scheduling the runnable.
+
+The next one is the "Symbol" tag that should exactly match the C function identifier
+
+This is the name of the function as it is, so the operating system knows the name of the function that
+
+it should schedule for its runnable.
+
+To conclude this topic, Runnable configuration should contain all the information on the interfaces
+
+or ports that it is accessing with any one of the mentioned sub configurations.
+
+

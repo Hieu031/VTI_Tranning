@@ -1,0 +1,107 @@
+Let's look into the next major used client server interface.
+
+Like already mentioned, client server interfaces are used for function calls or services across components.
+
+In simple terms, when we say service, we could relate it to a simple function on a module that is
+
+meant to be called from other modules as well.
+
+The Server is a provider and the clients are users of a service.
+
+The client initiates the communication, requesting that the server performs a service with transferring
+
+a parameter set if necessary.
+
+The server waits for incoming communication requests from a client, Performs the requested service and dispatchs
+
+a response to the client's request.
+
+The direction of initiation is used to categorize whether an Autosar software component is a
+
+client or a server.
+
+A single component can be both client and a server, depending on the software realisation.
+
+An example would help us understand better.
+
+Let's say a component is responsible to perform mathematical operations like some of 2 numbers.
+
+It has a function called "Sum" that takes in the input values as X and Y and sums them up and returns the result
+
+as the third parameter "S"
+
+.
+
+Since this component holds the function, it is called the Server and will create a provider for this.
+
+Now, let's look at another component who needs to use this function, this component will be called the
+
+client and will hold receive port.
+
+The client will trigger the server function by passing the arguments whenever it needs to call the server.
+
+There are two types of which the client can call the Server.
+
+The first one is synchronous server call, where the client is blocked until the results are returned from
+
+the server.
+
+Synchronous call can be used when the client wants to use the server function and immediately wants its results
+
+for further processing.
+
+From the current example, we are looking at the client passes 2 numbers and expects the result "Sum" back
+
+back for further processing.
+
+In this case, a synchronous server call can be used to get the results immediately.
+
+The second type is asynchronous server call, and this is a non blocking call.
+
+The client calls the server function and does not stop until the server function is executed.
+
+It just triggers and proceed to the next part of the code and the results are read and processed later
+
+by the client.
+
+Such communication is used when the client is not really in need of the result immediately or in case
+
+there are not results expected out of the server call.
+
+Like the sender receiver interface, the client server can also have a one to one connection with one
+
+sender and one receiver.
+
+There can be more than one clients as well who wish to use this Server
+
+This is called 1:N Connection, where we have one sender and multiple clients.
+
+The other case with the M:1 where there are multiple servers or M:N connection is not
+
+allowed for a client server interface, it's not allowed to have more than one server for a single client.
+
+To configure a client server interface, we will have to create a client server interface first and create
+
+a client server operation inside that which describes the server operation.
+
+The server operation must contain the arguments definition with the direction of the argument, like
+
+IN, OUT or INOUT.
+
+This example reflects the client server configuration for the "Sum" function that we saw now where the
+
+arguments and the direction to the server function are specified.
+
+Application error is the possible errors that the server can return in case there is an issue.
+
+We could also specify multiple client server operations within a client server interface.
+
+This is similar to the sender receiver interface that we saw where data and operation can be clubbed
+
+together to the same interface definition.
+
+Next, we create a provider for the server and the receiver for the client and map this client server
+
+interface to it.
+
+With this, we complete the client server configuration. (Demo covers this in more details)

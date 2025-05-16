@@ -1,0 +1,107 @@
+We shall look into how RTE handles Port communications in more detail.
+
+Let's take a typical example that we saw before to understand how the RTE does the interface communications.
+
+Here we have two software components and both needs to communicate with each other, and this happens
+
+through RTE.
+
+Component-1 (SWC1) has a provider to write its data out and component-2 (SWC2) has a receiver port to read this data.
+
+Now, the C file of Component-1 will contain a runnable or a function that somehow calculates the
+
+data to be sent and writes it to RTE through its Autosar interface or through an RTE API.
+
+That is RTE_Write "_" and the port name followed with the data prototype name
+
+as per the standards that we saw before.
+
+Now, from the RTE side, RTE defines these APIs and has the functional implementation for this.
+
+RTE will define an interface from its side and take a copy of this interface, that component-1 has provided
+
+provided.
+
+Note that the interface that RTE has created, which we have named it as "value", should not be accessed by
+
+other applications directly.
+
+Only the RTE should access this interface directly and the other layers should use the RTE APIs
+
+to Get or Set the value of this interface.
+
+Now coming to the Receiver side at Component-2.
+
+Here we have a receiver port, to read the data sent from Component one.
+
+The C file of the Component-2 will have Runnable function to read this and again here, we use the Autosar interface
+
+to get the data from RTE.
+
+RTE implements the Read API to copy its intermediate interface data to the pointer that was passed to the
+
+application.
+
+This is how RTE acts as an abstraction layer and takes care of the message copies between software
+
+components.
+
+You might think, why make the software too complex with this architecture?
+
+A question might come that why not an interface can directly be copied from one module to another, and
+
+it's easy if you don't go through Autosar's RTE layer.
+
+And yes, that was how it was until before.
+
+And when the complexity of the software is increasing in an automotive industry that we have nearly
+
+thousands of components in a system, it's not manageable with this older way.
+
+We will see the advantage of having RTE with a further example.
+
+Let's assume that the customer buys the functionality of software component-2, from a vendor
+
+and is not satisfied with it.
+
+He can easily have another vendor to develop this component functionality for him.
+
+Now, with Autosar it's just easy plug and play for the customer.
+
+He removes the old component from the system and replaces it with the new vendors software.
+
+Please note here that by doing this, the vendor who developed the software component-2 does not need to
+
+change the software for every customer or any system.
+
+The read API is completely derived from its own port configuration and that will be the same, and RTE will
+
+adapt itself based on this new component configuration.
+
+The older RTE API from RTE that was meant for the older software component is now replaced for the new
+
+component and the communication is complete.
+
+If we have not here by exchanging components, only RTE layer needs to be adapted and the rest of the software
+
+remains the same.
+
+From the advantages of Autosar that we saw in the beginning all are satisfied with this RTE layer
+
+A software component once developed can be reused across different systems and we get the best software
+
+from the market without any compatibility issues.
+
+Handling is easy from the application developer site since RTE takes the burden to handle the complex
+
+part of ensuring message consistency etc..
+
+A developed software component can be reused in different systems as well, and this ensures faster to market
+
+market.
+
+Hope it was clear on how RTE handles the communications between components and the benefits that we have out of it
+
+of it.
+
+

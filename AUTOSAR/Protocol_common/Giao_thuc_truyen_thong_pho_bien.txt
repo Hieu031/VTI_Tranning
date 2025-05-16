@@ -1,0 +1,54 @@
+Một số giao thức truyền thông được sử dụng phổ biến nhất trong Automotive
+
+1. Controller Area Network (CAN)
+- Đặc điểm kỹ thuật: 
+	Tốc độ truyền lên đến 1Mbps (Classical CAN), 1-5 Mbps (CAN FD)
+	Topology: Đường đôi (tiwsted pair), bus chia sẻ hai chiều
+	Khả năng phát hiện lỗi, ưu tiên khung tin (message arbitration)
+	chi phí thấp, tin cậy cao
+
+- Ứng dụng chính: 
+	Powertrain: Điều khiển động cơ (ECU), truyền động (TCU)
+	Chassis: ABS, ESP, hệ thống lái điện (EPS)
+	Body Electronics: Khóa cửa, kính điện, đèn chiếu sáng
+	Diagnostics: Chuẩn OBD-II sử dụng CAN làm kênh vật lý
+
+2. Local Interconnect Network (LIN)
+- Đặc điểm kỹ thuật: 
+	Tốc độ truyền: tối đa 20 kbps
+	Topology: bus một chiều, master-slave
+	Chi phí thấp, đơn giản hóa phần cứng
+- Ứng dụng chính:
+	Body Electronis: Điều khiển cửa sổ, gương gập điện, đèn nội that
+	HVAC: điều khiển quạt gió, van điều chỉnh nhiệt độ
+	Mạng cảm biến đơn giản: nhiệt độ, áp suất, vị trí
+
+3. Flexray
+- Đặc điểm kỹ thuật: 
+	Tốc độ truyền: lên đến 10Mbps
+	Cấu trúc bus đôi redundant (an toàn)
+	Chế độ hoạt động đồng bộ (time-triggered) kết hợp best-effort
+	Độ trễ truyền thấp, độ định thời chính xác cao
+- Ứng dụng chính:
+	Hệ thống lái tự động (xương sống cho ADAS): điều khiển lái tự động cấp độ cao
+	Hệ thống treo điều khiển tự động
+	Hệ thống truyền động phức tạp yêu cầu đồng bộ hóa nghiêm ngặt
+
+4. Media Oriented Systems Transport (MOST)
+- Đặc điểm kỹ thuật
+	Tốc độ truyền: 25-150 Mbps
+	Sử dụng sợi quang hoặc cáp đồng xoắn kép
+	Định hướng truyền thông đa phương tiện (audio/video, dữ liệu)
+- Ứng dụng chính: 
+	Inforainment: phát nhạc, video, kết nối màn hình, hệ thống giải trí sau ghế
+	Điều khiển hệ thống âm thanh: DSP, ampli, loa
+
+5. Automotive Ethernet
+- Đặc điểm kỹ thuật:
+	Tốc độ truyền: 100Mbps(100BASE-T1), 1Gbps(1000BASE-T1)
+	Topology: star hoặc daisy-chain (tùy triển khai)
+	Giao thức IP-based, hỗ trợ Qó và bảo mật (TSN, MACsec)
+- Ứng dụng chính: 
+	Camera, radar, lidar cho ADAS
+	Gateway, truyền dữ liệu giữa các domain controllers
+	Over-the-air updates, kết nối xe-đám mây

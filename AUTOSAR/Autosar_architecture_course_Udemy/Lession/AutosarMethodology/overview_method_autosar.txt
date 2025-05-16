@@ -1,0 +1,145 @@
+Having seen a detailed view of all the Autosar layers, we shall try to understand the methodology of Autosar
+
+We'll first start with a system level developments.
+
+When we say a system, it's a complete vehicle functionality.
+
+The system level development includes the complete software component for all parts of the vehicle,
+
+irrespective to whichever ECU, they will be finally placed.
+
+To make our example simple, let's assume that the entire system just has 5 software components
+
+like we see here.
+
+From the system level working, we will develop them all together and let's assume that each software component
+
+will communicate with each other through Ports.
+
+From the system level development will not consider on which ECU these components are finally going
+
+to be placed and we'll just connect them and realise their communication together as Virtual Function Bus
+
+or VFB
+
+The VFB is the sum of all communication mechanisms and interfaces to the basic software provided by Autosar
+
+Autosar on an abstraction level.
+
+When the connections for a concrete system are defined, the VFB allows a virtual integration in an
+
+early development phase.
+
+So as a first step, all the developments on the system level is to be complete and all hardware ECU
+
+related configurations are also to be developed for the particular system.
+
+The next configuration would be to map the software components that are already developed on the system
+
+level to particular ECU's
+
+Let's consider that we map the first two components to ECU-1.
+
+And the rest of the components in the system to ECU-2.
+
+So meaning our system just consists of two ECU's, and the software that we developed on the system
+
+level are split to these 2
+
+The configurations and development until here are called system level development where we plan everything
+
+considering the entire vehicle.
+
+We will further concentrate now on ECU-1 and its mapped software components.
+
+The next step is called the ECU Extract, which means that we'll be extracting only the ECU specific information
+
+from the system.
+
+ECU extract can be run for only one particular ECU at a time.
+
+For example, if you run an ECU extract for ECU-1 one on the system design we made.
+
+Then only the components that are relevant to this ECU are extracted and the remaining components
+
+relevant to ECU-2 are ignored.
+
+And similarly, if an ECU Extract is rent for ECU-2, then the components that were mapped to the ECU-1
+
+will be ignored and only the ECU-2 components will be extracted.
+
+The output of the ECU Extract is basically three files, which is called the Flatview, Flatmap and Ecuextract
+
+.
+
+The flatview will contain the flattened list of components from the system and the communication connectors between them
+
+them.
+
+The flat map will contain flat instances for all interfaces and components for that particular ECU,
+
+and this will mainly be used for calibration and measurement purposes.
+
+The final EcuExtract file will contain the ECU signals, signal mappings, Software component to implementation and
+
+ECU mapping etc..
+
+Basically this contains the infrastructure to that particular ECU.
+
+The next step from here is to configure only the ECU specific configurations. Here will have to do
+
+the OS configurations for that particular ECU.
+
+Further the even to task mappings where we map the events from the already developed software components
+
+that the OS tasks are done here.
+
+The other configurations done at this step would be further assigning developed components to a
+
+particular Core or Partitions on the same ECU.
+
+In a short summary, all configurations relevant to the particular ECU are done at this step.
+
+The final stage is to generate the RTE layer for each ECUs
+
+Let's first take for ECU-1
+
+Will pass all the developed configuration ARXMLs until the last step to the RTE generator tool and
+
+this will create the complete RTE layer for ECU-1.
+
+Similar to ECU-1 we will have to repeat the same steps of ECU extract for ECU-2 and complete
+
+the rest of the configurations and repeat the RTE for ECU-2
+
+And we produce a new RTE layer for the second ECU.
+
+The same approach has to be followed for all the ECU's available in the system to create dedicated
+
+RTE's for each individual ECU.
+
+The communications between these two ECUs are handled by the RTE through the configured COM (Communication) channels.
+
+This repetitive process we do here is for ECU level.
+
+And all configurations made after ECU Extract are ECU specific and not a system level configuration.
+
+If noted while working on the system level, the communications that were realized between software components
+
+components were called the Virtual Function Bus
+
+And when we talk about the ECU level, RTE realises the VFB for particular ECUs.
+
+This is the working methodology of Autosar
+
+To summarize, at the initial stages of the function development software's are developed for the system
+
+level and the communication at the system level is realised as VFB.
+
+Once the developed components are assigned to particular ECU's, we next extract the components only
+
+relevant for a particular ECU and continue the rest of the configurations for ECU specific.
+
+Finally RTE's are generated individually for each ECU's.
+
+

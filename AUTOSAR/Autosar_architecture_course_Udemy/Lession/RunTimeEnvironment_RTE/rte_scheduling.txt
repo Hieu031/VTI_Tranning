@@ -1,0 +1,87 @@
+We saw that RTE does the scheduling as well, along with interface communications.
+
+We shall see with the same example on how RTE takes care of this.
+
+While we already saw that every Runnable should be mapped to an event.
+
+Let's consider that the Function_1 is mapped to a timing event.
+
+And for Function_2 we will consider that we need to run it only when there is new data and so we will
+
+map this to a Data Received Event.
+
+Using this example, we will see how RTE handles this scheduling of both these events.
+
+There is an RTE configuration that's needed separately for this scheduling activity, which will be done
+
+at the final stages of the development process in a system development.
+
+It's called the Event To Task mapping in the RTE configuration, together with the OS task container
+
+configuration in the OS ECU configurations.
+
+We will not get deep into this, but we assume here that the OS was already configured to have two
+
+tasks called "CalcTask" and "ReadTask".
+
+To continue, we do that even to task mapping configuration where we map the timing event from component-1
+
+to the CalcTask and the data received went to the ReadTask.
+
+Now, based on this configuration to RTE, RTE will create task bodies for each and every individual
+
+task that we have configured.
+
+Here RTE will add a prefix called RTE_Task for every task it creates and then
+
+It follows with the name of the task from our configuration.
+
+In our example, since he took the name as CalcTask, the final task that RTE creates is with the
+
+name RTE_Task + "_" + CalcTask
+
+Which will then be further added to the operating system scheduler.
+
+This is how RTE generates the task names by the definition from the configuration we provide.
+
+That definition will contain the mapped runnable, which will be the Function-1 in our case.
+
+Here we could see this function called within the body, and this will be triggered periodically
+
+based on the timing period configured in the timing event.
+
+Next we will see how RTE handles the data received event configuration.
+
+Here we map it to a new task called "ReadTask".
+
+And like I already mentioned, RTE will create a Task function with name RTE_Task prefix
+
+and followed by the task name Read_Task.
+
+Since we have mapped the runnable Function-2 to a Data Received Event, RTE will add a flagging mechanism to make sure
+
+that this function is called only when some data is received on this port.
+
+We could notice an "If" condition check added before the call
+
+and this will be set at the RTE_Write API
+
+So whenever there is a new data, RTE will set this flag and the coupled Function-2 will be called only then
+
+.
+
+Similar to the Data received event, RTE has an encapsulation mechanism for all the other even types,
+
+so it can make sure that the runnables are called in an expected manner as per the even configuration.
+
+Hope you could understand how RTE takes care of the scheduling of runnables from the application
+
+components based on the mapped even types
+
+Having seen these RTE's codes until now, which copies, interfaces, sets flags, calls runnables etc.
+
+I hope there is a new question here on who writes this RTE code or from where this code comes from?
+
+This is something we'll see next.
+
+This is something we'll see next.

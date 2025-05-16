@@ -1,0 +1,94 @@
+RTE - Runtime Environment in AUTOSAR
+1. RTE là một môi trường thực thi giúp cho một phần mềm, hoặc một ngôn ngữ lập trình có thể chạy và truy cập vào Hardware.
+2. RTE trong AUTOSAR: 
+
+	- Khi làm việc với AUTOSAR, chủ yếu làm việc với ngôn ngữ C và không yêu cầu bất cứ RTE nào để chạy trên 	hardware, vì C cho phép access trực tiếp đến phần cứng thông qua khái niệm pointer.
+	- RTE in AUTOSAR là trung tâm của AUTOSAR ECU architecture, cùng với COM, OS và BSW module. Tất cả các Ports 
+	& Interfaces được triển khai trong RTE giúp giao tiếp giữa các SWC, BSW module,...
+	- RTE bao gồm các Interfaces sử dụng cho Runnable trong giao tiếp SWC, BSWC,... 
+	- RTE được liên kết chặt chẽ với BSW Scheduler do cùng một task OS có thể được sử dụng cho cả việc lập lịch 	SWC và các thực thể có thể lập lịch của module SWC.
+	- RTE được chia làm 2 phần:
+		+ Giao tiếp giữa các SWC
+		+ Lập lịch cho các SWC
+	- RTE và BSW Scheduler được tạo ra cho mỗi ECU để đảm bảo hoạt động và tùy chỉnh tối ưu ở cấp độ ECU.
+* RTE không có tính Reuse bởi vì nó được tạo ra để phù hợp với từng yêu cầu của tầng Application, nếu Application thay đổi thì RTE cũng thay đổi theo.
+
+3. Ứng dụng của RTE
+	- Triển khai các virtual function bus giúp kết nối các SWC bên trong ECU và các SWC bên ngoài ECU (thông qua 	kết nối vật lý giữa các ECU).
+	- Thực hiện các đường dẫn giao tiếp bằng cách sử dụng các Port và Interface để kết nối giữa các SWC và BSW 	module ở tầng thấp hơn cho mỗi cấu hình.
+	- Hỗ trợ các runnable của SWC dựa trên các RTE Event khác nhau theo cấu hình.
+	- Cho phép khởi tạo SWC và hỗ trợ khởi tạo riêng biệt từng SWC hoặc nhiều SWC cùng lúc.
+	- Thông báo cho Runnable về bất kì sự gián đoạn nào
+	- Đảm bảo tính nhất quán của dữ liệu khi share các biến chung giữa các Runnable trong cùng một SWC, ...
+	- Trong giao tiếp SWC (Sender - Receiver), RTE đóng vai trò ngăn chặn các xung đột khi có nhiều Sender truyền 	đến một Receiver và ngược lại. 
+4. Generation of RTE - Tạo ra tầng RTE
+	1. Thu thập các SWC có sẵn: Thu thập các descripyion files của SWC và các Composition SWC - Đối với các SWC 	có sẵn, hoặc tạo ra triển khai SWC mới và sử dụng cho bước tiếp theo.
+	2. Cònigure System: Kết hợp các SWC được cấu hình với Composition SWC khác nhau và các ràng buộc hệ thống 	khác.
+	3. System Configuration Description: File arcml chứa các chi tiết về ECU của toàn bộ hệ thống, được tạo ra 	sau bước 2.
+	4. Extract ECU specific information: Trích xuất các thông tin mô SWC và các thông tin chi tiết khác của 	ECU. 	Đầu ra của bước này là các file arxml - ECU Extract arxml.
+	5. Generate ECU Configuration: Gọi đến các cấu hình của các tầng thấp hơn của RTE - BSW module. Đầu ra của 	bước này vẫn là file arcml, chứa các thông tin cấu hình ECU về tầng BSW, SWC.
+	6. Generate RTE: Đây là bước quan trọng nhất của việc tạo ra các file RTE. Trong bước này, tất cả các 	Runnable sẽ được ánh xạ tới các OS task, các connectors sẽ được ánh xạ tới tín hiệu thực tế,...Đầu ra của 	bước này là các file RTE (Rte.c và Rte.h). Ngoài ra bước này cũng tạo ra file BSWMD, chứa thông tin về các 	chức năng khác của RTE.
+	7. Complie RTE: các file của RTE sẽ được complie và tạo thành các file object (.0), sau đó link với các 	file 	object đã được complie của BSW và SWC để tạo file thực thi cuối cùng (.elf, .hex,...).
+	- Các bước trên lặp lại cho từng ECU trong hệ thống.
+
+5. Một số thông tin về RTE API
+	- Các API của tầng RTE thì luôn có tiền tố 'Rte_'. Các API này có thể chia làm 2 loại:
+	+ Direct API: Gọi trực tiếp dưới dạng Function - like macro và không thể lấy được địa chỉ (không mất thời 	gian function call). Được tạo và gọi trực tiếp cho mỗi Port.
+	+ Indirect API: Được gọi gián tiếp thông qua các Port. Hữu ích khi có nhiều Port của Port Interface để có 	thể quản lý các Port Handle thông qua một mảng (Function Pointer Array).
+
+6. Mối quan hệ giữa các file sau khi generate RTE: Các file tạo ra có thể sẽ #include lẫn nhau
+	1. file Rte.h
+	- Xác định các phần tử cố định không cần tạo lại cho mỗi ECU, vì phần mềm tạo RTE sẽ không tạo đi tọa lại 	các file này.
+	- User có thể chỉnh sửa file này để đáp ứng nhu cầu nếu cần.
+	- include đến file Std_Types.h
+
+	2. Std_Types.h
+	- Định nghĩa các kiểu dữ liệu cơ bản cho các số nguyên không dấu/có dấu (as uint32_t, uint16_t, unit8_t của 	thư viện stdin.h)
+	- Cung cấp cách truy cập vào từng Complier.
+
+	3. Rte_Main.h
+	- include đến file Rte.h
+	- Chứa các prototypes cần thiết để cung cấp cho tầng Application.
+
+	4. Rte_<swc_name>.h
+	- File Header riêng biệt cho từng SWC.
+	- Chứa các function prototypes của API RTE, cấu trúc dữ liệu, function prototypes của các Runnable được sử 	dụng trong các Software Component.
+	- Include đến Rte_Type.h và Rte_DataHandle.h
+
+	5. Rte_Type.h
+	- Chứa các kiểu dữ liệu, cấu trúc dữ liệu riêng của RTE được cấu hình bởi Software Component.
+	- Include đến Rte.h
+
+	6. Rte_Datahandle.h
+	- Chứa các kiểu dữ liệu chuyên để xử lý data cần thiết cho các cấu trúc dữ liệu của SWC.
+
+	7. Rte_<swc_name>_Type.h
+	- Cung cấp các kiểu dữ liệu ở tầng Application, các constants value hoặc enum value được sử dụng trong tầng 	SWC.
+	- Include đến Rte_Type.h 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,173 @@
+We shall see the same requirement implementation in our Autosar now.
+
+To start with, I'm going to design the software from the Autosar architecture point, which we have
+
+already seen earlier.
+
+Let's split up the requirement to match this layered architecture.
+
+From the application side, we need an application component to control the cooling fan based on the
+
+temperature.
+
+This application component will make the decisions on when to switch ON the fan based on the temperature.
+
+Next, we need a driver or abstraction layer for the sensors and actuators we use and so we need the
+
+IO abstraction layer from the base software.
+
+Finally, we are going to use the IO Pins of the controller and here we need the MCAL layer to access
+
+the microcontroller.
+
+We would need three 3 IO Pins to control the H-Bridge IC, and 1 ADC Pin for the sensor input.
+
+We will now pick only the layers we want and see how to implement this requirement.
+
+We'll need the IO drivers from MCAL
+
+The IO hardware abstraction and the application software with RTE.
+
+We will slightly look in more detail to defragment these layers for our requirement.
+
+To start from the MCAL IO driver, it's further subdivided and we need the DIO, Port and ADC configuration
+
+from this layer.
+
+Next the upper abstraction layer. We will need 2 abstractions one for the H-Bridge and the other for the
+
+temperatures sensor.
+
+This will interact to the application layer through RTE and IO signal interfaces.
+
+We will have a sensor actuators software component on the application layer to read the sensor data from the abstraction
+
+and to handle the H-Bridge as well.
+
+To make it short and easy, we'll consider all the application components as cooling fan software component.
+
+We will elaborate only these layers and design our software.
+
+We have reduced the layers to only what we want, and here we could see the MCAL IO driver layer
+
+expanded to DIO Driver, Port Driver and ADC Driver.
+
+In the IO abstraction layer, we will design 2 abstraction components, one for temperature sensor and the
+
+other for H-Bridge IC.
+
+On the application side we will have two components.
+
+One would be a sensor actuator component and an application component to do the decision making.
+
+To keep it simple on the application layer we will combine it together and call it cooling fan software component
+
+component.
+
+We'll first start from there with base MCAL layer and go on step by step to design the complete software.
+
+To start with the controller pin configurations, we need to configure 1 ADC channel and 3 IO channels
+
+channels.
+
+For this, we need to configure the Port driver and this comes with an Autosar configuration.
+
+I have picked up this configuration parameters from the standards and summarized it here.
+
+I have added the comments for each configuration parameter of better understanding.
+
+Now, from these configurations will pick up the mandatory ones and set it for our use case.
+
+For example, we set the ADC pin on Pin 10 of the controller and the direction is input for ADC
+
+ADC.
+
+So we set the direction to PORT_PIN_IN
+
+Next is the mode, and we set it to ADC.
+
+And all these is defined in the Autosar standards
+
+Once you have this configured, then we have the port driver configuration complete.
+
+Similarly, we complete the configuration for the IO pins as well, and here we set the direction
+
+to OUT and the mode to digital IO.
+
+Next, we move to the digital IO driver's
+
+In this part, we write the driver function for the basic IO, and this would be to read and write the IO Pins
+
+.
+
+This is the snippet from the standards that mentions the function name and its parameters that are allowed
+
+to read or write a channel.
+
+This type of interface is called the standardized interface, where our standards defines them and they
+
+can be used across other BSW modules.
+
+And while writing the IO driver, it should follow exactly the same semantics that the standard say.
+
+Example for reading a pin, the standards defined the function name as DIO_ReadChannel.
+
+And this should take a parameter called ChannelId.
+
+The function content is to be written from the MCAL developers and finally the state of the pin is returned
+
+with either one of the returned values specified as STD_HIGH or STD_LOW
+
+And similarly, for write to a pin the function name DIO_WriteChannel is used with parameters
+
+as PIN ID and all this voltage level.
+
+Since these function names are standardized, the above layers who want access to control pins can
+
+blindly write their code with this function names and finally integrated to any other Autosar software.
+
+They'll exactly match.
+
+For example, if the upper H-Bridge abstraction layer development is outsourced to a different vendor,
+
+They vendor do not need to bother on the function names to set or Read an IO Pin, and this code can directly
+
+rely on the functions from the standards, which will finally match during integration.
+
+We completely DIO driver code with the functions to read and write a port in accordance with Autosar
+
+standardised interface specification.
+
+Having completed with a DIO driver will next configure the ADC channel.
+
+This is again, a snippet from the standards where Autosar defines the functions to be used like
+
+the IO drivers.
+
+Here, I picked up two important functions to trigger the ADC.
+
+Which is the ADC_StartGroupConversion to trigger the ADC and ADC_ReadgGroup to read back to converted data
+
+data.
+
+We implement these functions in the ADC driver for the upper abstraction layer to use it.
+
+Please note that there are a lot of more functions and interfaces defined from the standards for the
+
+drivers, and the MCAL developer has to implement all this that are specified within the corresponding standard.
+
+This is the role of a MCAL developer in an automotive domain.
+
+MCAL layers are tightly bound with the hardware, and this will change every time where there is an Hardware update
+
+update.
+
+And to also specify it will only be this layer that will be modified when there is an hardware change
+
+and no other upper layers will be touched.
+
+I quickly jump to the standards on where to look up for the MCAL specifications that we saw now
+
+I quickly jump to the standards on where to look up for the MCAL specifications that we saw now
+
+

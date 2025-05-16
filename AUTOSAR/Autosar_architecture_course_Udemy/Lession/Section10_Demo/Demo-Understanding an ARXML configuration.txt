@@ -1,0 +1,240 @@
+We will start with the demo part for the IO Abstraction.
+
+From here, we will have an ARXML configuration together with our C files
+
+We will first start to understand the ARXML configuration and the tag structure in general.
+
+And like already explained, the Autosar tools for configuration are very costly, and if we are not part of any leading automotive company, 
+it's not possible for us to use those sophisticated softwaresfrom outside.
+
+And even though if you have these tools to configure, it's good to understand the configurations directly,
+
+so we get the complete knowledge on Autosar and its configurations.
+
+So let's begin.
+
+We'll be using simple XML editors to write our configuration.
+
+I'm going to use 2 tools
+
+one is the notepad++ and I have an XML editor called XML Spy.
+
+You are free to choose any general XML editors that you have, but please note that it is good that if it supports
+
+schema validations.
+
+So it will help us to know the allowed tags and rules while configuring.
+
+First, let's understand the ARXML configuration format.
+
+I have 2 sample ARXML's here and I'm going to open it in Notepad++
+
+If you are new in handling the XML files directly in general, then it would be a bit difficult to understand
+
+it at the very first time.
+
+It's a bit complicated in such case, but I'll try to explain this in the best understandable way.
+
+So here I have this simple ARXML configuration
+
+In the sample ARXML and I'll explain few general things from here.
+
+We'll start from the beginning.
+
+All configurations that can be relevant to any Autosar configuration should start with the tag called
+
+Autosar, which is mandatory.
+
+Inside, we have the attributes of the Autosar version we use and the corresponding schema.
+
+We would more or less imagine this is a constant that will be the same for the complete project.
+
+Next,
+
+All configurations should be within packages called AR-Packages.
+
+Here "AR" means Autosar and it's abbreviated as Autosar packages.
+
+AR Packages can contain any number of AR-Package inside, and we are free to club or categorise our
+
+configurations based on their needs and place them on different AR-Package.
+
+It's mandatory that we name this AP Package and the name is provided in a short name tag within.
+
+The short name tag is very important in Autosar, since we'll be using this name as the key to refer
+
+to the configuration.
+
+The next is the elements, and this is where all our configurations relevant to the AR-Package are
+
+to be placed.
+
+Since we are talking now only about the structure of the ARXML, I'm not going in deep to the real
+
+configurations which will be seeing next.
+
+In general, how to do differences in something very very important to understand, since this is
+
+the configuration flexibility that Autosar also offers.
+
+We have the flexibility to split our configurations to any number of ARXMLs, and we can cross refer
+
+to them.
+
+For example, let's take this port that we have.
+
+Inside, we have the reference to a sender receiver interface.
+
+This configuration can be in any file or even in the same file to refer to.
+
+In the references we will have this "Dest" or the destination attribute, which says the destination tag name where
+
+we want to refer to.
+
+So here we are mentioning that the further reference destination is of tag called sender receiver interface.
+
+And the text within has the reference to the configuration.
+
+We'll see this with an example from the port configuration.
+
+This is a provider port configuration, and inside we have a reference to the port interface.
+
+Here we have the destination as sender receiver interface, meaning we are pointing that the further reference
+
+is a tag with a name mentioned here.
+
+And let's look at the path.
+
+This path is a combination of short names basically.
+
+First is the ShortName_1, which is the name of the AR package from the same file over here.
+
+And then a '/' and next is the child and its short name is Interface_1.
+
+To say in simple terms, just imagine this like a folder structure.
+
+Like just collapse, all the child containers and let's start from first.
+
+We have the parent folder, as Shortname_1, and the sub folders like ShortName_2, Interface_1
+
+and Interface_2.
+
+If you have to refer to the variable data prototype
+
+then the path reference should be Shortname_1
+
+Shortname_1 '/' Interface_1 '/' VDPName_1
+
+And the destination attribute will have variable data prototype.
+
+hope this was clear
+
+This refers to the below sender receiver interface configuration.
+
+We shall see the same with a complex example.
+
+I'm taking the file called platform types where we have all the data types defined, which will be using
+
+in our next project.
+
+I will collapse all the tags and we'll see this from the beginning.
+
+So I just collapsed everything.
+
+The configuration starts with a Autosar bag, meaning this is an Autosar configuration.
+
+And the attributes remains the same.
+
+Next is the AR-Packages, and inside this we have an AR-Package.
+
+The AR-Package should have a short name to refer to
+
+which is mandatory.
+
+And this short name is called AutosarPlatformTypes.
+
+Further, this has another set of AR-Packages inside
+
+And this has further a collection of 3 AR package.
+
+I'm expanding the AR-Package, and the name of this is implementation data types
+
+I'm going to its elements, and this has a list of implementation data type inside
+
+I will expand one completely
+
+Here is the name of the implementation type, which is Boolean.
+
+And we'll see references.
+
+We have a reference to Software Base Type.
+
+And to this short path reference mentioned over here.
+
+We'll try to navigate there based on this info.
+
+The first name says it's from AutosarPlatformTypes
+
+So it's here.
+
+And now the second one is called SWBaseTypes, and we have to look for this chiled name with
+
+this same software base types.
+
+And it's in the next AR-Package and it's over here.
+
+Further,
+
+next refers to the Boolean and we have to find its child within the software base types
+
+We go to the elements and we have many software based types over here.
+
+And Boolean should be one out of them.
+
+It's here.
+
+So the configuration above is further referencing to this boolean base type with has the destination tag
+
+called Sorftware base type.
+
+It's not mandatory that all references should be within the same file.
+
+The reference can be in any ARXML file from the project.
+
+For example, if you see in our sample ARXML
+
+We are going to make a cross reference to an interface type from this platform types ARXML.
+
+I'm taking a sender receiver interface from what we already have, and I'm going to use this as the
+
+next example.
+
+Over here for this interface properties of the variable data prototype named VDPName_1
+
+I am mentioning that this interface is of type uint8
+
+And i am referring to their destination, implementation data type
+
+with package
+
+AutosarPlatformTypes + '/' + ImplementationDataTypes + '/' + uint8
+
+Which is defined in the platform types ARXML
+
+It should be within one of the implementation types from its child list, and I'm just going to look
+
+for it.
+
+So it's over here
+
+And we are at the right path
+
+AutosarPlatformTypes, ImplementationDataTypes and uint8
+
+This is in general on how we structure and do references in the ARXML file.
+
+Like already mentioned, this might be confusing to understand if you are new to Autosar or XML handling
+
+but it would surely get better once we are used to it.
+
+

@@ -1,0 +1,104 @@
+
+TỔNG HỢP CHI TIẾT CÁC GIAO THỨC TRUYỀN THÔNG TRONG Ô TÔ
+
+1. CONTROLLER AREA NETWORK (CAN / CAN FD)
+----------------------------------------
+1.1 Khung tin (Frame Format)
+- SOF (Start of Frame): 1 bit
+- Arbitration Field: Identifier (11-bit hoặc 29-bit) + RTR bit
+- Control Field: IDE bit, r0, DLC (4-bit)
+- Data Field: 0–8 byte (Classical CAN) hoặc 0–64 byte (CAN FD)
+- CRC Field: 15-bit (CAN) hoặc 17-bit (CAN FD when BRS = 1) + CRC delimiter
+- ACK Field: Ack slot + Ack delimiter
+- EOF (End of Frame): 7 bit
+- IFS (Inter Frame Space): 3 bit
+
+1.2 Dây kết nối & Phần cứng
+- Bus: Cặp xoắn đôi CAN_H và CAN_L
+- Điện áp: Dominant ~ 3.5V (CAN_H high), Recessive ~ 2.5V
+- Terminator: Điện trở 120Ω ở hai đầu bus
+- Transceiver: ICDT1040, TJA1040...
+- Kết nối: DB9 hoặc kết nối thẳng vào ECU harness
+
+1.3 Cách sử dụng trong Automotive
+- Kết nối ECUs: nối CAN_H và CAN_L song song qua terminator
+- Cấu hình bitrate: ví dụ 500 kbps, định thời bit timing (BRP, SJW, PS1, PS2)
+- Khởi tạo bus: enable transceiver, config MCU CAN controller
+- Gửi/nhận: fill CAN TX mailbox, poll hoặc interrupt khi RX
+
+2. LOCAL INTERCONNECT NETWORK (LIN)
+-----------------------------------
+2.1 Khung tin
+- Break Field: ≥ 13 bit-time dominant
+- Sync Field: 0x55
+- Identifier: 6-bit + 2 parity = 8-bit
+- Data Field: 1–8 byte
+- Checksum: Classic (sum inverse) hoặc Enhanced (bao gồm ID)
+
+2.2 Dây kết nối & Phần cứng
+- Single wire (dây đơn)
+- Pull-up resistor ~10 kΩ tới 12V
+- Voltage range: 5–32V tolerant transceiver (e.g., TJA1020)
+- Kết nối Master/slave: master điều khiển schedule, slaves phản hồi
+
+2.3 Sử dụng Automotive
+- Thiết lập schedule table trong Master ECU
+- Master gửi Break + Sync + ID, các Slave đọc và phản hồi data
+- Wake-up bằng dominant kéo bus > 250µs
+- Tỷ lệ lỗi checksum thấp, phù hợp ứng dụng body electronics
+
+3. FLEXRAY
+----------
+3.1 Khung tin
+- Frame Header: Sync Frame ID (11-bit), Payload length (8-bit), Cycle count (6-bit)
+- Frame Payload: 0–254 byte
+- Frame Trailer: CRC (11-bit hoặc 23-bit), marker
+
+3.2 Dây kết nối & Phần cứng
+- Dual channel A & B (redundant) với terminator 60Ω
+- Cặp xoắn đôi, modulation MLT-3
+- FlexRay transceiver (e.g., TJA1080)
+- Topology: bus hai chiều redundant
+
+3.3 Cách sử dụng
+- Defining communication cycle (Static + Dynamic segments)
+- Static slots: xác định offset và length
+- Dynamic slots: sử dụng minislot và idle for event-triggered
+- Startup: ColdStart frames, network management
+
+4. MOST (MEDIA ORIENTED SYSTEMS TRANSPORT)
+-------------------------------------------
+4.1 Khung tin & Channels
+- Slot: 7-byte payload
+- 512 logical channels (audio, video, data, control)
+- Time slot multiplexing
+
+4.2 Dây & Phần cứng
+- Optical ring: sợi quang với Mbits ports
+- Alternatively shielded copper cable
+- MOST transceiver (e.g., Intel/Volkswagen MOST25)
+
+4.3 Sử dụng
+- Token passing điều khiển quyền truy cập ring
+- Synchronous slots cho audio, asynchronous cho data
+- Các thiết bị nối thành vòng (ring), mỗi thiết bị forward data
+
+5. AUTOMOTIVE ETHERNET (100BASE-T1 / 1000BASE-T1)
+-------------------------------------------------
+5.1 Khung tin
+- IEEE 802.3 Ethernet II: Preamble (7-byte), SFD (1-byte), DA, SA, Type/Length, Payload (46–1500 byte), CRC-32
+
+5.2 Dây & Phần cứng
+- Single twisted pair (UTP/STP)
+- Connector: BroadR-Reach RJ45 hoặc H-MTD (custom automotive connector)
+- PHY: 100BASE-T1 PHY IC (e.g., NXP TJA1100), 1000BASE-T1 PHY (e.g., Marvell 88Q2112)
+- PoDL support up to 50W
+
+5.3 Sử dụng
+- Autonegotiation hoặc fixed speed
+- TSN config: 802.1Qbv, Qci, Qcc setup for time triggers
+- PTP (IEEE 802.1AS) for clock sync
+- Integration with IP stack, UDP/TCP for higher-level comm
+
+=====================================
+Hãy tham khảo file này để tích hợp vào tài liệu hoặc thiết kế network harness của dự án automotive.

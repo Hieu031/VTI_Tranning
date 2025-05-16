@@ -1,0 +1,141 @@
+We'll start continuing with our example from where we left.
+
+We'll be creating the ECU Abstraction layer now, and I'll create a folder to place this relevant files.
+
+Inside, I'm going to create a C file called ECUAbstraction.c.
+
+And an ARXML file to write our component configuration.
+
+Like we already saw before, we have to have a C file and an ARXML file together, which represents a
+
+software component.
+
+And the next important stepup, will have to have a schema file to edit our ARXML's
+
+This is available with the standards download itself where we can take it from.
+
+This is the Autosar 4.4.0 standards download and we have a zip called methodology and templates.
+
+Inside, we have the XML schema
+
+And here we have this schema XSD file that contains the schema for the corresponding Autosar version
+
+version.
+
+We'll copy this complete schema to our working project so we can use them there
+
+And our next setup, we will create another folder where we can place all our interface definitions that
+
+will be commonly available for the project.
+
+Inside, I'm going to create an ARXML file called Interfaces where I'm going to define all interfaces here.
+
+And please note that it's not mandatory to always have the interfaces on a separate file. All configurations
+
+can be clubbed together within AR-Packages or a single ARXML or you can split them apart into any
+
+number of ARXMLs.
+
+Next, we would need a platform types ARXML where we have the data types defined.
+
+I'm going back to the standards and we can reuse this.
+
+Inside Modelling Showcase,
+
+Measurements and calibration.
+
+Introductory or advanced, we could take any folder here and i am taking introductory
+
+We have the folder called Model.
+
+And here we have the PlatformTypes.arxml
+
+I'm copying this into our projec
+
+Like we already saw, the platform types contain the data types and base types defined, and this will
+
+not change at all.
+
+This is usually taken from the standards itself, for a new project.
+
+And we'll be reusing this for our demo as well
+
+We are now complete with the setup and we can move to the implementation.
+
+I'm going to use XML spy software to edit the ARXMLs
+
+And like already mentioned, it's not mandatory to use the same software.
+
+But we could use any XML editors that support schema assistance.
+
+This software comes with a one month evaluation license, and we could use this for our trials.
+
+To start with, I'm going to create a new project.
+
+And we'll see these default folders created.
+
+I'm going to import our local project folders into this.
+
+I'm just adding a project under XML files.
+
+Inside, we have the local folder structure visible here, and we'll first start with the already familiar
+
+file to complete the set up.
+
+I'm going to open the platform types arxml
+
+And here we see a lot of validation errors initially.
+
+The reason is that the schema is not associated with this ARXML and will do this first.
+
+We go to the schema
+
+And assign schema option
+
+We get the option to browse to a schema, and I'm going to refer to the schema XSD file that
+
+we copied to our project from the standards.
+
+I've loaded this schema
+
+And I'm going to save this file
+
+And the validations are complete and we have a green tick saying we have the ARXML configuration valid now
+
+now
+
+The positive part of this editor, is that it continuously validates our configuration against the schema
+
+and reports errors in case.
+
+To also specify and make this clear again, the software I'm using now is not an Autosar software
+
+Its a general XML editor, and the suggestions and validations it's doing is all based on the Autosar schema
+
+that we have provided.
+
+Basically, any XML editor that supports scheme should do this.
+
+I'll quickly walk through with the option we have in this tool that will help us to write our configuration
+
+based on the schema.
+
+The tag over here mentions the list of child elements that are possible or valid.
+
+For example, if I put my cursor on any part of the configuration, I get the possible tags that are valid
+
+under it and I can easily choose one from this.
+
+The next one is the attributes tab and the possible attributes for the tags are listed.
+
+For example, if I take the data constraint tag, these are the possible attributes that can be set within.
+
+Over here is the info tab, and we have the additional info of the particular configuration present
+
+over here.
+
+Using this option provided from this tool and with the help of the schema will be able to easily do
+
+the configurations that we are going to do next.
+
+

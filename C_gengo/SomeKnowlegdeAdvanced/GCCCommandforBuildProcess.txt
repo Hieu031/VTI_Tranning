@@ -1,0 +1,24 @@
+GCC Command for Build Process
+
+1. Trình biên dịch GCC - thường dùng ở bước 2 quá trình compilation
+- GCC - GNU Compiler Collection là một tập hợp các trình biên dịch được thiết kế cho nhiều ngôn ngữ lập trình khác nhau. GCC là một thành phần quan trọng của GNU toolchain, và được hầu hết các hệ điều hành giống UNIX, như Linux và Mac OS chọn làm trình biên dịch tiêu chuẩn.
+
+2. Thực tế có thể dùng GCC để build program all step
+
+2.1. Dùng GCC gõ command trên cmd/terminal để buld chương trình
+
+Step1: Preprocessor
+	gcc -E main.c -o main.i
+ - Output của nước này là file main.i, chủ yếu chứa nội dung của thư viện stdio.h và phần đã thay thế bởi #define
+
+Step2: Compilation
+	gcc -S main.i -o main.s
+- Biến file main.i thành file main.s: Chuyển file về dạng ngôn ngữ máy Assembly
+
+Step3: Assembler
+	as main.s -o main.o
+- Biến file main.s thành main.o: đây là các file thuộc về máy tính mà ta không đọc được
+
+Step4: Linking
+	gcc -v -o main main.o
+- Quá trình này sẽ tạo ra file main.exe để run trên máy tính

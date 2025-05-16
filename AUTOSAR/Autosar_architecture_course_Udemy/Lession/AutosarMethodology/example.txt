@@ -1,0 +1,119 @@
+Hope the methodology was understood.
+
+To even get a better picture on this, let's understand the Autosar methodology with a Live use case example.
+
+Let's consider a requirement on the system level that we have a car and the car's lock should unlock only when
+
+the car speed reaches zero.
+
+And once the doors are opened, the parking light should turn on
+
+Now let's start designing this requirement.
+
+We will have to design this new requirement on the system level as per the Autosar methodology we saw now
+
+We will have to design this new requirement on the system level as per the Autosar methodology we saw now
+
+Let's assume that our system already had a software designed to calculate the speed and handle the parking lights
+
+Let's assume that our system already had a software designed to calculate the speed and handle the parking lights
+
+We'll just have to create a new software component for this requirement to make a decision on when to
+
+unlock the door and once unlocked, then trigger the parking light command with a parking like software.
+
+We introduce a new component called Door Control Software Component.
+
+To perform the calculations we will need the speed data and will take this through Ports from the Engine
+
+Engine speed control software component that was already available.
+
+Finally, after unlocking the door we'll have to switch ON the parking light.
+
+So we'll have another Port to pass this decision to the Light control software component.
+
+From the system level, our developments are done and we have realized these interface communications
+
+with different components through a VFB (Virtual Function Bus).
+
+The next would be to map the developed components to particular ECUs on the system.
+
+Let's assume we already had 3 ECU's and the engine control components are placed in Engine ECU and
+
+Light control components in the Light ECU.
+
+We will map our new component to the Door ECU, since that would be the apt place, to place this component.
+
+With this we complete the system level developments.
+
+Next, we move to the ECU level, and with the beginning we start with creating the ECU extract for
+
+each particular ECU's.
+
+ECU extract is usually done through special development tools and again this comes from different vendors
+
+vendors.
+
+It takes additional inputs like the ECU configuration, System configurations etc. apart from
+
+the developed software components.
+
+Having all these inputs, we have ECU extract generated for each individual ECU's.
+
+Once we have the ECU extract ready, we start with the individual ECU configuration, like the event to task mapping
+
+event to task mapping, core and partition mapping that are specific to the particular ECU.
+
+Once the configurations and ECU extracts are ready for each ECU, RTE is created with the RTE generator tool
+
+.
+
+And finally, we have the RTE created for each and every specific ECU.
+
+If we note here, RTE takes care of the communication between software components even though they are
+
+placed on different ECU's.
+
+While doing the software component development in the early stages, we did not bother about the different
+
+ECU communications and we just worked on the system level requirement with VFB.
+
+Finally, RTE takes care of this and the functional developers need not worry.
+
+If we see the Door ECU wants the speed data from the other engine control unit and RTE is responsible to get this
+
+info from the engine ECU via the system that's configured.
+
+And similarly, the commands to switch on the parking light is also carried by RTE to the other ECU's.
+
+We see an advantage here while using Autosar.
+
+Software components can freely be moved to any ECU with the less development effort.
+
+Communication in the system level is handled from the RTE and the base software, and hence the application
+
+component level intervention is not required.
+
+This can't be possible with a non Autosar software, and it is really tough for the automotive industry
+
+if we have a non Autosar software since they will lack all these facilities.
+
+Hope the Autosar methodology was clear from this example.
+
+
+Play
+Play
+Lets learn Classic Autosar Architecture from scratch and experience how to write an Autosar software with live example
+Rating: 4.4 out of 5
+4.4
+8,087 ratings
+29,510
+Students
+4.5 hours
+Total
+Last updated September 2024
+English
+English [CC], Czech [Auto]
+, 
+information alert
+Schedule learning time

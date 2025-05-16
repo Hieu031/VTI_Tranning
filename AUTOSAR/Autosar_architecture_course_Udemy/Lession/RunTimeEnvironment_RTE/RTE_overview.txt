@@ -1,0 +1,137 @@
+RTE or the runtime environment is the heart of the Autosar architecture.
+
+All interfaces that are communicating between application components or between application and base
+
+software should go through RTE.
+
+There is no by passing of the RTE layer in Autosar in any case.
+
+The Autosar runtime environment acts as a system level communications center for Inter and Intra ECU information
+
+exchange, which is the communication between the components of the same ECU or if the communication
+
+of the components, is across ECU's.
+
+The RTE is the runtime representation of the Virtual function bus (VFB) for a specific ECU.
+
+Virtual Function BUS or the VFB is a new term that we are talking about.
+
+And we'll see about this in the coming chapters with an example.
+
+Now, coming back to RTE.
+
+RTE layer plays the key roles for the advantages of Autosar architecture.
+
+The flexibility and freedom that a software competent can be placed on any ECU in a vehicle system
+
+is achieved by the features that RTE provides.
+
+The flexibility is also applicable for intra communication, where the developed components can be placed
+
+on different Cores or partitions very easily.
+
+The current challenge of an advanced automotive control unit is to handle the multicore controllers effectively
+
+effectively.
+
+When we say effectively, then it means that the developed components should be distributed across cores
+
+very easily to reduce run time and together the core to core communication of interfaces must be handled
+
+in an optimal manner.
+
+RTE provides this flexibility very well.
+
+RTE can also take care of message consistency while passing interfaces across applications, irrespective
+
+of whichever code they are and whichever priorities the interfaces are accessed.
+
+Apart from taking care of passing messages across components, RTE is also responsible to take care
+
+of the scheduling of Runnables as well.
+
+The events that are configured on the application components are handled from RTE and RTE satisfies
+
+that runnables are called accordingly, like mentioned in the event configurations.
+
+To summarize, the responsibilities of RTE, RTE is responsible to take care of interface communications
+
+between software components.
+
+It takes care of message consistency across software components, irrespective to any core that the application
+
+is running.
+
+RTE takes care of scheduling of runnables or functions based on configured events.
+
+We shall have a detailed look on how RTE does this in the coming sections.
+
+The RTE layer specification can be referred in the standard specification from Autosar.
+
+We'll have a short look at the specification document from Autosar
+
+Please go to "autosar.org" website.
+
+And to standards/classic platform and please navigate to Autosar 4.4.
+
+Here we will have a zip download called RTE.zip, and this is the specification that we'll be looking into
+
+into.
+
+Once it's downloaded.
+
+We'll have 2 set of documents inside
+
+One is the requirement specification and another one is the software specification.
+
+We look into the software specification for RTE for further reference
+
+This is a specification document for RTE. We will quickly have a look into the table of contents of what
+
+this document offers.
+
+We have the RTE overview over here which we just saw now
+
+Then comes the RTE generation process, which will be looking at later stages.
+
+Then comes the schedulers, the operating system how it handles it.
+
+How RTE takes care of data consistency's, measurements and calibration offered from RTE
+
+Then the communication mechanisms how RTE handles the sender receives, how RTE handles Client Servers
+
+Then the next major section would be the RTE API, which you'll be referring to, and that's that Section 5.6
+
+5.6, I'm quickly going there, the "API Reference"
+
+and we will be using all these API reference during our development, so i will just quickly
+
+show one of the API reference over here, I will take RTE_Read API
+
+And we have a good description of what RTE_Read API is and where to use them
+
+And how to read this RTE_Read API function.
+
+We'll be taking the same example and we will be looking at this in the next coming sections.
+
+We'll have a closer look into the RTE API's, which will be using this mostly during our developments.
+
+The RTE layer provides API's for the application layer to communicate interface and use the features
+
+provided from RTE.
+
+We can see this in the RTE specifications under Section 5.6 API reference
+
+I made a short summary of the APIs based on the functionality.
+
+The APIs that we see here are the prefix of the function and the rest of the function name is derived
+
+from the configuration.
+
+And this type of derived interfaces are called the "Autosar interfaces".
+
+The sender receiver and the client server interface APIs are the ones that are majorly being used for
+
+software development and will a look into this alone in more detail?
+
+

@@ -1,0 +1,311 @@
+First, we'll start with defining our port interfaces, and we'll do this in the Interface.arxml
+
+.
+
+We have an empty new file and we'll get this document empty error at the very first time.
+
+We'll go back to the platform tapes that we already linked the schema and copy the static configuration
+
+from here.
+
+I'm going to add the closing tag for Autosar, which I did not copy.
+
+I'm saving it and now we get a green tick, meaning that we are OK and ready for the rest of the configuration.
+
+We started with the interface configurations.
+
+On the right side, we see the possible elements that are allowed within the Autosar container.
+
+We will add Autosar packages where we will be working on
+
+And just to double click from here, will add it to the editor
+
+Inside this, we are going to define an Autosar package and we have a number of Autosar package groups
+
+within this.
+
+Short name is by default added, which is always mandatory.
+
+We name this package as interfaces, since we are going to place all our interfaces here.
+
+Next, we are going to add elements inside where we define our interfaces.
+
+Inside elements, all these configurations listed over here are possibly.
+
+We have a temperature interface in the abstraction layer that is going to be a sender receiver interface,
+
+since this is just a primitive data type. For the temperature interface will first start creating a sender receiver
+
+interface.
+
+I'm going to type it out and we get the suggestion as well.
+
+The sender receiver interface has a short name, and we can name this interface as I_Temperature
+
+I just add an I_ as a prefix for a naming convention for all interfaces, and we are free
+
+to use our own over here.
+
+Inside, I have to define the data elements for this interface, and we can take the data elements
+
+tag from here
+
+Inside that we defined the variable for communication within the variable data prototype.
+
+We have the short name here and we name the variable for temperature as "Temperature"
+
+We have now defined our variable and we have to define its properties next. Properties have to be defined
+
+within software data definition properties
+
+and inside this we have variants
+
+and the property is conditional
+
+where we define the complete properties
+
+So listed over here are the complete properties that an interface can take.
+
+We'll see only the mandatory one from this list.
+
+Which is the implementation data type reference
+
+Where we mention the data type for this interface, which is mandatory for an interface definition.
+
+The destination attribute is added by default, since it has to refer to one another configuration
+
+where this data type is defined.
+
+For the data types will go to the platform tapes, which we already saw with all the data type definitions.
+
+For temperature,
+
+we will choose the float data type so it can hold the decimal values.
+
+We'll take Float32
+
+I'll copy the tag name of this to use in our Destination attribute
+
+And here we can also have the information of the possible values that are allowed to be a referenced over here.
+
+we can refer to this as well for queries.
+
+Next,
+
+we give the path reference and from this info, we could see the rules as well.
+
+And how this should look like and we should stick within these rules.
+
+We'll give the path reference to float32 data type
+
+The parent package name is autosar platform types, and I'm taking it.
+
+Next is the implementation data types
+
+And next is our required float32
+
+So this completes our sender receiver interface definition for temperature. I'm saving it and we get
+
+the configuration validated if it's according to the Autosar schema.
+
+And it looks good now
+
+We have a pretty print option, so we make our configuration beautiful with proper spacing.
+
+This completes the interface configuration for temperature
+
+Sorry, a typo
+
+.
+
+So this completes it.
+
+The next is that we have two functions for the H-Bridge that we have defined for start and stop for the
+
+cooling fan.
+
+Since this is a function call, we will have to define a Client server interface for this.
+
+Like always we have to name it and I'm going to name this as "I_StartMotor".
+
+So this will our Client Server interface for start motor service.
+
+The content of the Client Server function will be completely different from the sender receiver.
+
+As they differ with their properties completely
+
+We have to first list all possible options here, and we need the operations tag to define the
+
+properties of this service function.
+
+Inside this, we are going to define the client server operation.
+
+And we have to name this operation and let's say StartMotor
+
+To begin with for a function, we'll have to see how many arguments our function takes. For Start Motor
+
+motor will take one parameter with fan speed input from the application.
+
+So we add arguments data prototype
+
+We have added arguments and arguments data prototype from inside
+
+And name this argument as speed
+
+Or maybe Fan_Speed is more appropriate here.
+
+For the arguments we have to define it data type, and here we have the type preference for this
+
+And this is same as the implementation data type like we did for the sender receiver.
+
+We'll have more type references possible here
+
+From the info,
+
+And it's very generic and we have the required implementation data type also possible.
+
+And for this, we go back to the platform types
+
+And choose our interface type from here
+
+It's enough if we have a unit8 data type for speed and we'll take this.
+
+Like always, we take the tag name as destination and to make it quick, I'm going to copy the already
+
+explained reference from here and replace the interface type.
+
+This was possible since all the data types were defined from the same parent.
+
+This is the main inputs for a client server interface, defining how the function will look like.
+
+Sorry, I missed an important point for the arguments, and it's the direction information.
+
+You have to specify if the argument is an input or output or both to the function.
+
+For this, we use the direction tag
+
+And we have the suggestions as listed here
+
+Will have to choose any one of the following allowed values, and this Fan Speed is an input to the function
+
+and we set the value of this as IN.
+
+Now the client server looks complete and we have an additional option, and it's good to have for a client
+
+server.
+
+We have the option called possible errors and we can define our error codes that this function can return.
+
+Or maybe an OK status incase the function was called successfully.
+
+I'm adding this
+
+And inside, we have application error
+
+And we named this as E_OK
+
+We have to set an error code number for this
+
+And we'll set it to zero for no errors
+
+Similarly,
+
+We add another possible error called E_NOTOK
+
+in case to return this for any failures.
+
+And we'll set this Error code to 1
+
+Please note that these error code 0 and 1 are defined in the standards under standard return types.
+
+Now we have to add this error codes to our operation
+
+We have this possible error reference option and we'll use this
+
+And inside start defining the error references
+
+from here
+
+which is the E_OK and E_NOTOK that we have already defined.
+
+To refer to here the destination will be the application error tag
+
+And inside, we have to provide a path to E_OK
+
+I'm going to minimize the other definitions for better understanding.
+
+We take the first package as interfaces
+
+And the corresponding client server interface start motor, and inside this we have the E_OK defined.
+
+I missed the client server name here, and I'm going to add it.
+
+To refer to the next error code, to make it quick, I'm going to take the same copy and just modify the
+
+error code to E_NOTOK
+
+This is our client server configuration for Start Motor, and I'm saving it
+
+And it's validated OK
+
+I'm going to make this look better with proper spacing's
+
+And it looks fine now
+
+I'm going to define the next client server interface StopMotor.
+
+I'm going to name it as I_StopMotor
+
+Inside, as usual I'm going to define the operations
+
+And name the operation as stop motor
+
+From the arguments point, we don't have any arguments to pass and we just leave it empty in this case
+
+I'm next going to directly define the possible errors for this function, very similar to what we did for
+
+the start motor.
+
+Defining E_OK
+
+And defining it E_NOTOK
+
+With the same error codes
+
+I'm going to add these possible error references within the client server operation
+
+And i am adding the possible error reference tag over here
+
+Adding the destination as application error
+
+And let's complete the package reference
+
+reference
+
+As usual, minimising all the other interface definitions
+
+So it's easy for us
+
+And completing the package reference
+
+To make it quick
+
+Taking a copy and replacing it with E_NOTOK reference
+
+This completes our clients server configuration.
+
+And like we saw now, the possible errors are to be defined separately for each and every client server
+
+interface.
+
+I'm going to beautify and save it
+
+This completes our interface definition for temperature
+
+and StartMotor,
+
+and StopMotor for the H-Bridge
+
+Next we can move to the ECU abstraction software component development.
+
+

@@ -1,0 +1,129 @@
+With all this info obtained from software components, we shall look into a practical example and understand
+
+how we could choose the software component types we need.
+
+Let's consider this requirement use case, and we must design an Autosar solution for this?
+
+The requirement is simple.
+
+We have to get the vehicle speed from an external speed sensor.
+
+If the speed is more than a calibrated set point, then the following action should be taken.
+
+Cut off the injector immediately and stop the vehicle.
+
+Log an error through the diagnostics module.
+
+In parallel, the application should calculate the maximum speed that the vehicle was driven and save
+
+this data during shutdown.
+
+The same data should be restored to the application when the ECU is powered up in the next driving
+
+cycle.
+
+Let's start from the inputs first, we first need an external speed sensor that is connected to the ECU
+
+.
+
+Let's assume that the sensor input is already available on a digital IO pin of the controller.
+
+So now from the application point, we first need an ECU abstraction software component that can read
+
+the corresponding IO Pin and calculate the count information of the pulses that the speed sensor provides.
+
+So we need an ECU abstraction software component here to do this job.
+
+The next part on the application layer, we would need to read the sensor data.
+
+So we introduce a sensor actuator software component here to interact with the ECU abstraction layer and
+
+get the sensor pulses.
+
+The sensor actuators software component further calculates the speed based on the sensor input with
+
+some calculations inside.
+
+This component can be coded to calculate the speed in different units, for example in Km/hr
+
+m/hr that the application software needs for further processing
+
+Next, we need an application software component to perform the core logic of the requirement to cut
+
+off the engine when it crosses a particular speed.
+
+Hence, we introduce an application software component that gets the calculated speed from the sensor actuator software component
+
+software component and does further processing
+
+does further processing
+
+In parallel for our core calculations, we need a calibration parameter.
+
+This is required from the application side to decide the high speed cutoff value, and this must be
+
+tune-able during production.
+
+For this use case, we introduce a calibration parameter software component that can provide this
+
+calibration parameter to the application software component.
+
+Now the next requirement says that the fuel injection should be cut off immediately when the speed
+
+exceeds the calibrated value.
+
+While we say immediately, then it's expected that there should not be even a minor delay to do this
+
+operation.
+
+Hence, we introduce a complex device driver to make the cutoff operation faster.
+
+CDD is introduced that can take the cut off command from the application and set the corresponding
+
+IO Pins of the controller, so the injector is immediately cut off.
+
+The next requirement is to log this as an error entry for diagnostic purposes.
+
+For this, we would need the help of the base software diagnostic manager to handle it, so we introduce
+
+a BSW service software component for diagnostics, and this comes as a part of the BSW development
+
+devlopment.
+
+The application component will be connected to the service software component, and in case an event
+
+happens, the application component can pass on the information to the service component.
+
+That diagnostic manager further takes care of handling this error entry.
+
+The final requirement is to save the maximum speed that the vehicle was driven in the driving cycle.
+
+The application software component will calculate this maximum speed and this has to be saved somehow.
+
+To do this, we introduce a NVBlock software component that creates NV Block for this application,
+
+which further gets the data from the application software component and passes on to the NVM manager
+
+of the based software.
+
+To save the data, the ECU has an external data flash IC, which will be handled from the BSW layers like the memory
+
+abstraction layer.
+
+If noted, the application layers need not bother much on how to save and retrieve this data and it
+
+all depends on the base software and its abstraction layers.
+
+The other way around, during start up the NVM manager handles the restoring of the speed data from the
+
+external memory and passes it down to the upper application layer using the NV block software component.
+
+The properties and settings of how the variable has to be stored and retrieved are all controlled from
+
+the configurations in the new blocks of component.
+
+Hope it was clear on how to choose the right software components for our application.
+
+In the further training, we shall try to use the same example use case and look in deep on the communication
+
+mechanisms that Autosar offers

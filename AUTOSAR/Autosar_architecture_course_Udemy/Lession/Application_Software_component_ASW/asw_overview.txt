@@ -1,0 +1,155 @@
+We are now at the end of looking at the main blocks and concepts of an application software component.
+
+To summarize or put all things together we have learned so far, we will see how a software component
+
+is structured
+
+While we say we have to design a software component, it is the C file that has the functionality
+
+and the configuration ARXML file that will associate it.
+
+The C file and the XML configuration together represents a software component.
+
+Let's first look at what the configuration ARXML contains.
+
+Configurations are structured in Autosar packages, which we will see in detail in the demo sessions,
+
+but now we can just look at the blocks on how its Structured.
+
+We'll have to first define on what software component type we are going to have, and this can be any
+
+of the types like application, parameter, service software component etc..
+
+For example, let's take an application software component.
+
+An application component mainly contains these blocks within.
+
+The port configuration contains the list of all ports that are applicable for this software component.
+
+The second is the internal behavior, which represents or describes the characteristics of the software component
+
+component.
+
+The configurations within this mainly deals with the runtime environment.
+
+The next is the software component implementation, where we describe the properties of the software,
+
+like the vendor who designed the module, the way the software is shared as source or objects, the
+
+resource consumption of the module, etc..
+
+Now coming back to the ports. Ports inturn contains all the provider, receiver and provider receiver
+
+ports that are belonging to the particular software component.
+
+There is no restriction on the number of ports that are allowed and we can have any number of ports
+
+within a component.
+
+In turn, each port will refer to a particular interface, and this can be any port interface that we
+
+saw earlier.
+
+It is restricted that each port can have only one interface type and not more than one.
+
+A short summary, a component can have any number of ports within and each port should be associated
+
+with only one port interface type.
+
+Next the internal behaviour. An internal behavior like mentioned, provides the content wise information
+
+about the software component.
+
+This intern has the events and Runnable configured within.
+
+An event can be any one of the allowed events that Autosar supports and we could have any number of events
+
+as well in a component.
+
+This is also associated with a number of runnables that are available within the software component.
+
+Additionally, an internal behavior can contain something called, for instance memories, which defines
+
+the interfaces that lie within the scope of the component, like static, constant interfaces or parameter
+
+interfaces that lie only within the scope of the component.
+
+Within runnables, we could configure any number of Runnable or functions based on our implementation.
+
+For example, if you have around 5 functions in our C file, then we will have to have 5 set of runnables configured.
+
+Each Runnable should define its internal properties like which port it's accessing extra.
+
+Finally, the runnables will be mapped to the events and this defines how the runnable should be called
+
+by the operating system.
+
+Finally, the software component implementation will contain the delivery info of the software like
+
+the vendor, resource consumption etc.
+
+This is how an ARXML configuration of a software component is structured.
+
+Now coming to the corresponding C file of the component.
+
+To link the source with a configuration that we made, we'll have to include an RTE header with a format
+
+RTE_ + Software Component Name + .h
+
+And I'll explain about this in detail in the coming course (Demo).
+
+Next, we have the usual functionality of the module as functions.
+
+Please note that we have to configure a runnable in the ARXML for each function we write in the C file.
+
+And in case we try to access ports within the C file, then they should be mentioned within the runnable
+
+configurations as data access.
+
+How to write or read a port from the c file using RTE APIs is something that will be covered later.
+
+For now, we just understand how the structure will look like.
+
+The Autosar standard specification for the application component can be found in this pdf from the standards.
+
+We will have look into the standard to have a better understanding and further refer to this for our software
+
+development.
+
+I'm quickly going to show you where to find the Autosar standard template for software components that we saw until now.
+
+We are looking at Autosar 4.4 standards and we have a zip download called methodology and templates.
+
+I have already made these downloads from the website and request you to download the same as well.
+
+Inside this, we have the software component template specification which we have to refer to.
+
+This is a software component specification for designing a software component and this has all the
+
+details that we saw until now.
+
+You can browse quickly to the sections from the bookmarks here and could see the topics that we covered
+
+in detail.
+
+Example Ports, Port Interfaces, Software components.
+
+The details of the port interfaces.
+
+The Sender Receiver communication, Client Server communication and all the communications that we actually saw
+
+can be referred over here
+
+Similarly the internal behavior which we saw. What is an internal behavior and the entire details
+
+that we actually cover up?
+
+The Runnable entity.
+
+The RTE events, how to define an event, what are the different types of events we have, and a quite
+
+a good detailed description is also available over here in this document.
+
+Please refer to this document for any implementation reference in future while developing a software compoent
+
+component.

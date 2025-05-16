@@ -1,0 +1,375 @@
+Before we go there, I would recommend to have a refresher on this topic of the software component summary
+
+which will be useful next. The ARXML configuration has the component type defined on top and inside, we have
+
+the ports where we define all the ports relevant to the component here
+
+And next is the internal behavior where we have the event and runnables.
+
+Runnables further have data access for the ports that we use in.
+
+Having this in mind and with the previous theory of what we learned, we'll start developing the software
+
+component.
+
+I'm going to open the ECU abstraction ARXML, where we are going to configure the temperature sensor
+
+and the H-Bridge abstraction.
+
+Usually in real time, it's good to write 2 abstraction layer's separately for each sensor or actuator,
+
+but for our demo will combine this as one.
+
+As usual the file is empty when we start from scratch and we'll take the same static schema and
+
+Autosar settings from the previous ARXML's
+
+I'm copying the Autosar tag and its attributes to our new ARXML and going to save it.
+
+Validations are OK and we are ready to start.
+
+I'm going to start with the AR-Packages
+
+And AR-Package as default where we create our component
+
+I'm going to name this package as SWComponent
+
+And next the elements,
+
+We have to now define what Software component we are going to use from the list of all of the components
+
+we saw. We are working on the BSW layer and the ECU abstraction component, and we will use this component
+
+type which is apt here.
+
+The tag name ECU Abstraction software component type defines that this component inside is going
+
+to be an ECU abstraction component.
+
+We can get more info about this block as well from over here.
+
+We will name this as Temperature H-Bridge software component.
+
+Next, we have to find the components contents
+
+We saw before that the software components parent will contain ports first and we'll start with it.
+
+I'm going to define the ports and inside this, there are three possible ports that we saw in the
+
+ports tutorial that's possibly in Autosar.
+
+We have to choose any one of these ports mentioned here either provide, receiver or provider receiver port
+
+For our application will first define the port for temperature.
+
+And since this interface is going to be calculated and returned from the ECU abstraction layer will have a provider port
+
+defined for temperature interface,. We will name it PP_Temperature
+
+And this PP prefix is our own naming convention for understanding, and Autosar does not really mentioned
+
+this.
+
+Inside, we have these options that can be provided as inputs.
+
+But we will choose only the reference to the interface we created, so we'll take the provider interface
+
+reference.
+
+Here we will have to mention the destination to the sender receiver interface that we created
+
+I'm going to add this to the destination
+
+And add the reference to the temperature interface
+
+So it's interface I_Temperature
+
+And then the interface name
+
+With this we have completed the provider port configuration for the interface temperature. We will move to the next port
+
+The ECU abstraction layer has two functions for start and stop of the fan
+
+And these functions are owned in this module
+
+So this module will own the provider port and will have the server
+
+I'm going to add this provider port and we name it as PP_StartMotor.
+
+We will add the interface reference to here and it will be the client server interface
+
+created for start motor.
+
+We will refer this to our server port.
+
+Adding the destination interface as client server
+
+And further reference to the Client server interface.
+
+This completes the provider port for the start motor function.
+
+Next, we repeat the same P-Port for another server function we have for stop motor
+
+Now it's PP_StopMotor
+
+And adding the interface reference
+
+I am reusing the old reference to the same package
+
+and finally, the reference
+
+to stop motor
+
+This completes the port configurations for our software component.
+
+Next, we go to the Internal behavior where we define the components behavior.
+
+Adding an internal behavior inside
+
+We have to name our internal behavior and will name it as IB_SWC
+
+We have so many options to define a components behaviour and we'll stick to our application.
+
+We will first define the runnables
+
+We have three functions in our module
+
+The first one is the ReadTemperature function to read the ADC port and calculate them.
+
+We will define the runnable entity for this function to start with.
+
+I'm going to name this runnable as ReadTemperature
+
+This function after calculating the temperature, it will write the data to this port
+
+called PP_Temperature. We will have to specify this in our runnable entity.
+
+We have two options here to specify this
+
+And we take the data send points to mention that we are going to send some data on a port within this
+
+function.
+
+Within this, I have to list all our variables that I'm going to write and we have them to name
+
+them each.
+
+Here we have to specify the provider port that they are going to write, and this information is given
+
+with Prototype reference.
+
+with Prototype reference.
+
+We have the port prototype reference here
+
+and we have to refer to this provider port temperature
+
+The destination reference is the provider port here
+
+and the package reference is to the PP_Temperature.
+
+So it'll be software component
+
+'/' then the next package Temperature H-Bridge software component
+
+and then inside the port name
+
+We have now referenced this port prototype, to the variable access.
+
+This is not enough for variable access, so you further have to refer to the variable data prototype
+
+of the interface on which are going to write.
+
+So we have to say target data prototype
+
+The destination should be a variable data prototype from our port interface of temperature
+
+We navigate to the interface
+
+and from here, we take the variable data prototype that we define for the sender receiver.
+
+We have to refer to this package and I'm taking the destination tag
+
+and next, going to fill the reference
+
+And finally, the reference to the variable data prototype
+
+This completes the variable axis for this runnable, and likewise if we have more written or read
+
+ports, then we'll have to further specify them within.
+
+The next important for all the runnables is a symbol tag, which represents the exact C identifier for
+
+this runnable.
+
+This should be the exact function name that they are going to write in our C file and let's say
+
+ReadTemperature_function
+
+This will be understandable once we see the C file demo next.
+
+This completes one of our Runnable configuration
+
+We'll move to the next runnable and we'll call it as stop motor.
+
+So this runnable is the server function that they are going to define.
+
+This Runnable entity does not write or read any ports, and so we have nothing to specify inside, we directly
+
+go to the symbol tag.
+
+And mentioned the function name
+
+as StartMotor_function, and this will be our server function for the clients server interface.
+
+There are two mandatory information as well to be provided which is the minimum start interval
+
+and we'll set this to zero typically
+
+and this is the minimum start period in seconds that RTE should take care between runnable
+
+execution's.
+
+The next one is the "can be invoked concurrently" option which we will set it to False
+
+And this takes any one of these values from here as true or false, this means that if the runnable is allowed
+
+to be invoked in parallel during run time or not.
+
+I'm going to fill these properties for the older runnable as well.
+
+So it's the same minimum start interval as zero and can be invoked concurrently as false.
+
+I'm going to quickly create the third Runnable entity for Stop Motor.
+
+And this is the same as the top that we saw with the start motor.
+
+And again, the default properties minimum start interval
+
+Can be invoked concurrently to false.
+
+And the symbol tag and we will name our server function for Stop motor as StopMotor_function.
+
+This completes our runnable entity configuration
+
+I'm going to save it and going to beautify it as well.
+
+We have completed the Runnable
+
+and next we go to the events configuration.
+
+We have to map each and every Runnable to an event over here
+
+Just adding events
+
+To start with first read temperature runnable, we will be expecting that the function is called periodically
+
+every 10 milliseconds once.
+
+I'm going to choose a timing event to map this runnable over here for this use case.
+
+and I'm going to name it as TE_10ms
+
+Next, we have to link the runnable entity to this timing event, and we have the option called
+
+start on event reference inside.
+
+Here I have to refer to the ReadtTemperature and the destination will be Runnable entity.
+
+So the package reference will be again
+
+Software component types,
+
+Temperature H-Bridge software component,
+
+then the next child as internal behavior.
+
+And further insight comes the runnable entity
+
+We have now linked this runnable to the timing event. Next is the period where we specify the timing that
+
+RTE should call this Runnable.
+
+The period is always mentioned in seconds and for 10ms its 0.01
+
+This completes our timing event configuration, and we have configured to call the Runnable every 10ms once
+
+.
+
+Next, we go to the next runnable called start motor
+
+This is a server function of a client server interface from a provider port and here
+
+we will have to choose the operation invoked event.
+
+I'm going to name this as OIE_start motor
+
+And I have to mention, the start on event reference to the start runnable entity.
+
+Just minimising it
+
+So the destination will be the runnable entity and very similar, we give the path reference.
+
+This is a bit different to the timing event configuration, and next we have to mention the provider port here
+
+.
+
+For this, we mention the operation reference
+
+and the context P-Port
+
+To refer to the corresponding provider port
+
+I'm going to map this provider port over here
+
+So the package, software component types again
+
+the component name and the name of the port
+
+Further, we will have to mention client server operation reference to this port interface, so we say target
+
+operation reference
+
+and we go to the corresponding interface definition
+
+So it should be a client server operation as the destination.
+
+We'll be referencing to this client server interface operation of the corresponding client server interface
+
+so this is our final client server interface reference.
+
+So I'm going to add it over here to the destination
+
+And the path to the client server interface
+
+So this is our client server interface that's available over here
+
+sorry operation
+
+We have completed the client server operation for one of the server runnable.
+
+we will now go to the stop motor function
+
+Here we are again going to repeat the same as the start motor so I take it. To make it quick I'm
+
+going to copy paste the existing and modify.
+
+I'm just going to modify the differences alone
+
+I am replacing that runnable entity name to stop motor
+
+Then the provider port name to its corresponding port stop motor.
+
+And the client server operation name
+
+to stop motor that they have already defined
+
+and that's the client server operation name
+
+We're going to save it and it's fine.
+
+With this we complete the events configuration for our ECU abstraction software component
+
+I'm going to clean and save and this completes the configuration for this layer.
+
+Next, we'll see how to write the C file for this ECU abstraction layer.

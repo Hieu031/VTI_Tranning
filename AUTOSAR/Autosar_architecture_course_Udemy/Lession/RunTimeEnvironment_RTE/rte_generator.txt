@@ -1,0 +1,123 @@
+The RTE layer from the architecture is mostly generated out of configurations.
+
+We will need special generator tools to generate this layer, and these generators are licensed and
+
+not easily affordable.
+
+However, we could still understand how they can behave and what will be the inputs and what are the
+
+output of such generators.
+
+The generator, generates the RTE layer code based on the Autosar standards, and they are easily predictable
+
+since it will follow the Autosar specification on how the code should look like for its input configuration.
+
+The inputs to the generator will be all the ARXML configurations that we have seen so far and few
+
+additional ones as well.
+
+They are mainly comprised of the software component description, which is the configurations from the
+
+software component devlopment.
+
+The next would be the ECU Extract configuration, which is the configurations that are relevant
+
+to a particular ECU.
+
+Next is the RTE and operating system ECU configurations, which we saw before where we have defined the
+
+OS Task containers and mapped the Event to Tasks for a particular software component.
+
+The next comes the ECU instance configuration, and this will contain the description of the corresponding
+
+control unit.
+
+Finally comes in the complete base software configurations of the base software module's.
+
+To summarize all the Autosar configurations that are part of the particular ECU are passed into the RTE generator
+
+to generate the RTE layer.
+
+Like already mentioned, this is a tool that analyzes the Autosar configurations and produces the RTE APIs,
+
+for example Rte_Read, RTE_Write, RTE_Tasks etc..
+
+The summarized outputs from the tool would be mainly a C file called Rte.c, which has the complete code
+
+for communication between Software components, RTE interface definitions, etc..
+
+And we'll have a big list of supporting files generated as well like we see here.
+
+The other important generated files will be the RTE tasks that are actually generated as part of this from
+
+the configurations.
+
+RTE generator also creates a dedicated header file for each and every software component we have
+
+we have.
+
+The format of the header is Rte_ + Component name + ".h".
+
+This header file is to be included in our source file to make use of the RTE generated API's like the RTE_Read,
+
+RTE_Write and other API's required for the software component development.
+
+Next to this RTE generates a set of supporting files for additional processing.
+
+To start with the OS related ARXML, it has the scheduling information of the tasks that are created
+
+created.
+
+This will be further processed by the OS tools to do the scheduling.
+
+The IOC or Inter OS Communication is an extract file, that has the communications that are passing
+
+over cores or partitions.
+
+The operating system will use this information to generate spin lock mechanism to transfer interfaces
+
+across cores.
+
+Next, the mcsupport or microcontroller support data, has the information of the measurements and calibration
+
+calibration.
+
+This is used in the automotive industry to measure or for debugging purpose, to view or modify interfaces
+
+during testing.
+
+Finally, the BSWMD file has the information of memory mapping for the RTE Generated interfaces.
+
+All these configurations that are generated will further be passed on to the next consecutive tools
+
+the OS tools etc. to complete the entire software structure.
+
+Hope it was clear on how the RTE layer in the Autosar architecture is generated from the input configurations.
+
+We have seen a lot of configurations so far, and it's understood that the ARXML configurations like the
+
+ports, interfaces, events etc. is difficult to be hand written
+
+We have many editors and generators in the market for Autosar, and I just listed a few of them here.
+
+We could categorize the development tools in 4 categories, and we would need different tools based
+
+on our configuration we do.
+
+For BSW or the MCAL implementation, we will need one of these softwares and similarly for the BSW configuration
+
+will have different tools from the same vendors.
+
+The very important tool is the RTE Generator, which creates the complete RTE layer from all the configurations
+
+that we make, and this is the most complex one from the available Autosar tools
+
+We will need any one of these tools to create the RTE layer and all these tools come with a very high cost
+
+which may not be affordable for us to try and learn.
+
+Going further in the benefit for major of us will not be able to purchase these tools,
+
+I will cover up the examples with simple XML editor that is commonly available.
+
+

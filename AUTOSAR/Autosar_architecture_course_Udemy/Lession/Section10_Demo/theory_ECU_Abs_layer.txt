@@ -1,0 +1,83 @@
+This completes our MCAL layer development and we'll move to the next upper IO abstraction layer.
+
+Since we have a Temperature sensor we will introduce a temperature sensor abstraction component that interacts
+
+with the lower ADC driver to coordinate the signal conversions and read back the data.
+
+The data that this read back will be the raw value from the ADC and here we can have the offset adjustments
+
+internal conversions related to temperature, signal conversions, etc..
+
+Based on the configurations, once the conversion is complete, the ADC driver can request a call back
+
+to these layer to pass the data to the abstraction layer.
+
+To keep the code simple we will write a simple function on this temperature abstraction to do this job.
+
+We write a function called ReadTemperature and here the ADC driver standard interface is called, which is the
+
+ADC_StartGroupConversion.
+
+This triggers the ADC conversion from the ADC driver and usually the ADC driver requests a callback
+
+once the conversion is complete.
+
+But here we will call the ADC_ReadGroup to read back the converted data, to keep the example simple.
+
+The Read Group takes parameters as the Channel ID and a variable interface where the ADC driver can write
+
+back the data.
+
+This completes the C Code of the temperature abstraction component.
+
+Next is the H-Bridge abstraction.
+
+We use the IO Pins of the controller to access the H-Bridge IC, and so we can interact with the DIO Drivers.
+
+The digital IO Ports are directly written with HIGH or LOW based on its H-Bridge configuration to switch
+
+ON or OFF the cooling fan.
+
+In the H-Bridge abstraction we will introduce 2 functions called start motor and Stop Motor, and within this we have
+
+the code to set the IO Pins accordingly to start or stop the cooling fan.
+
+This function is further to be called from the application layers based on its decisions.
+
+We have seen the C Code implementation of the IO abstraction and now we'll see the configuration side
+
+of it.
+
+The IO abstraction takes the component type as ECU abstraction software component type.
+
+We'll have to define the port and port interfaces required to pass the information to the upper application
+
+layer through RTE.
+
+We'll start again from the temperature abstraction function.
+
+Here the function triggers the ADC conversion and the ADC result from the temperature sensor is
+
+placed in a variable called "Result".
+
+To pass this result to the upper application layer is sufficient to choose the sender receiver interface here
+
+with a provider port to write this data to RTE.
+
+Next on the H-Bridge abstraction side, we have two functions to start and stop the fan.
+
+Since these functions should be called from the application, we'll use a client server interface with
+
+a provider port.
+
+This abstraction layer owns the function and this will be the server side.
+
+To sum up here, the IO abstraction is going to have 3 providers and one out of this is the sender
+
+receiver interface to pass the temperature raw data and the other two are the client server interfaces
+
+for the application to access the server function for the H-Bridge.
+
+Before we move to the next layer, we'll do the complete configuration of this ECU abstraction component
+
+and get a real feeler on how this will look like.

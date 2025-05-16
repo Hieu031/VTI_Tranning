@@ -1,0 +1,108 @@
+Let's see how to use the RTE APIs to write-to or receive a data from a port.
+
+We will use the same old example configuration that we saw earlier.
+
+We have 2 ports, provider and a receiver defined in our configuration, and they both are mapped to
+
+a sender receiver interface.
+
+To use the RTE APIs during our C file development, we have to derive it from our configurations.
+
+I have taken the API reference from RTE_Write from the standards and lets see how to derive the function
+
+name from here.
+
+The RTE_Write function will return to the status of the operation using the standard return type.
+
+The next comes to function naming.
+
+And we can ignore the ones in the square bracket as they are optional.
+
+The next is the substitution for , which is the name of the port.
+
+And the next is the name of the variable data prototype from the sender receiver interface.
+
+The mandatory argument of the function is the data that is to be returned to RTE.
+
+Now, let's write our C file with this information we have.
+
+We have a function called "Function_1", that writes the speed to its provider port.
+
+We shall follow the standards and derive it.
+
+The function starts with "RTE_Write" and followed by the name of the Port.
+
+In our case the name of the provider port is PP_Speed and that would be placed here.
+
+The next is the name of the variable data prototype and this has to be taken from the sender receiver
+
+interface that's associated with this provider port
+
+We take the short name of the variable from here, which is the "Speed".
+
+Similarly like this, we could blindly write the name of the function based on our port configurations
+
+in the C file and RTE will create these functions for us based on the standards.
+
+Next, we shall see this for the receiver ports.
+
+where we read the data from RTE
+
+The standards described are very similar.
+
+The API starts with RTE_Read and takes the same name of framing the rest of the function.
+
+The argument of the function takes a parameter to read out the data that RTE returns.
+
+The difference between the parameters between read and write will be the direction of the argument,
+
+and here RTE experts a pointer type as input so it can write the data to it.
+
+to it
+
+Coming to the C file, let's assume we have a function called "Function_2", and this needs to read the
+
+speed data from RTE.
+
+The initial RTE_Read comes from the standards and the next port name comes from the receiver port,
+
+which is the RP_Speed.
+
+And similarly, the name of the variable data prototype, which is the "Speed" follows.
+
+Since we said that RTE will write the data to the past argument, it's expected that we pass a variable
+
+as pointer type or as a reference, and RTE writes a data to it which you can use this further inside
+
+our function for the next calculation's.
+
+From the C-code, this is how we really write to a provider port or read from a receiver port that we have configured
+
+configured.
+
+RTE APIs (Sender Receiver Interface)
+
+<P-PORT-PROTOTYPE>
+	<SHORT-NAME>PP_Speed</SHORT-NAME> 
+	<PROVIDED-INTERFACE-TREF DEST = "SENDER-RECEIVER-INTERFACE">/PortInterdaces/IF_Speed</PROVIDED-INTERFACE-TREF>
+</P-PORT-PROTOTYPE>
+<R-PORT_PROTOTYPE>
+	<SHORT-NAME>RP_Speed</SHORT-NAME>
+	<PROVIDED-INTERFACE-TREF DEST = "SENDER-RECEIVER-INTERFACE">/PortInterfaces/IF_Speed</PROVIDED-INTERFACE-TREF>
+</R-P-PORT-PROTOTYPE>
+<SENDER-RECEIVER-INTERFACE>
+	<SHORT-NAME>IF_Speed</SHORT-NAME>
+	<DATA-ELEMENTS>
+		<VARIABLE-DATA-PROTOTYPE>
+			<SHORT-NAME>Speed</SHORT-NAME>
+			<SW-DATA-DEF-PROPS>
+			<SW-DATA-DEF-PROPS-VARIANTS>
+				<SW-DATA-DEF-PROPS-CONDITIONAL>
+					<SW-CALIBRATION-ACCESS>READ-ONLY</SW-CALIBRATION-ACCESS>
+				</SW-DATA-DEF-PROPS-CONDITIONAL>
+			</SW-DATA-DEF-PROPS-VARIANTS>
+			</SW-DATA-DEF-PROPS>
+			<TYPE-TREF DEST = "APPLICATION-PRIMITIVE-DATA-TYPE">/DataTypes/uint16</TYPE-TREF>
+		</VARIABLE-DATA-PROTOTYPE>
+	</DATA-ELEMENTS>
+</SENDER-RECEIVER-INTERFACE>

@@ -1,0 +1,101 @@
+Autosar is an Automotive Open System Architecture, which was developed in 2003.
+
+It's a layered architecture, mainly developed by a partnership from automotive OEMs, suppliers and
+
+other companies in the software, semiconductor and electronic industries.
+
+Before continuing with this course, it's important to understand what an ECU is.
+
+It would be a new term for people who are new to the automotive industry.
+
+If you take a vehicle, which we will be further calling it as a system, it contains many electronics that
+
+control a small parts of the vehicle.
+
+Example, the engine control unit controls the vehicle injection, ignition extra.
+
+Likewise, there are many control units available in the vehicle, which will be calling it as ECUs
+
+.
+
+Now coming back to the topic.
+
+It's an open standard that's defined and accessible to everyone from the organization website.
+
+To proceed with this course, it's recommended to navigate to the official website and download the
+
+required specifications for further cross-reference.
+
+We are now at the organization website and this is their homepage.
+
+We'll navigate to the standards and classic platform.
+
+This is the latest Autosar standards that is released.
+
+The past releases can also be accessed from the links here from below.
+
+For our training's we look into the Autosar 4.4.0 standards.
+
+We just navigate in to the 4.4.0
+
+And we are now in the classic platform of 4.4.0
+
+And here we could see the specifications categorizsed on layer wise.
+
+Its recommended that we download all the standard zips from here, and that could be useful for reference
+
+as the course continues.
+
+Will quickly see how the standard will look like.
+
+I'm going to download one of the standards for MCAL.
+
+Inside, we have two sets of documents where one is the SRS document.
+
+And the other is the SWS document.
+
+SRS is the requirement specification of that particular layer, and SWS is the specification
+
+document of the particular layer.
+
+To understand the layer specifications will refer to the SWS document and for further particular
+
+requirement clarity will refer to the SRS document.
+
+We'll see what is inside once we come to these topics later.
+
+The Autosar organisation is a group of companies together like we see here.
+
+These nine companies together are the core partners of the Autosar organisation.
+
+They are a combination of OEMs and suppliers together.
+
+They have the organizational control and they form the top management of the organization.
+
+They are the deciding authority for Autosar standards, clearance releases, etc.
+
+They'll also be part of the leadership working group and will provide technical contributions or updates
+
+to the standards.
+
+The next are the premium members.
+
+These premium members are the leading OEMs or suppliers who will make use of the Autosar standards and contribute
+
+to its development as well.
+
+They'll be part of the leadership working groups and can make technical contributions to the standards.
+
+They also have access to the working documents as well.
+
+The next are the development members, they are formed by small organisations or startups, would
+
+also like to be part of Autosar.
+
+They have access to the final standards, and at times they can also make useful contributions as well.
+
+Like the premium members, they will not have access to the working documents.
+
+Finally, the attendees are followers, they are mostly non-profit organisations or individuals who would
+
+like to follow the standards, they'll be limited to only making use of the standard documents.

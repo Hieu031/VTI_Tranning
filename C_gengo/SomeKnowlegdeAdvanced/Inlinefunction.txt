@@ -1,0 +1,30 @@
+Inline function 
+1. Inline function là các hàm với mục đích thay thê nội dung hàm ngay tại vị trí gọi hàm, thay vì được gọi qua cơ chế gọi hàm thông thường, giúp cải thiện hiệu suất code. Ở đây, cách hoạt động của nó gần giống như Function Like-Macro nhưng nó được xử lý ở bước compilation.
+
+2. Để sử dụng Inline Function ta chỉ cần thêm inline trước cách khai báo hàm thông thường:
+	- Tuy nhiên không phải cứ thêm "inline" vào trước hàm thì đó sẽ là inline mà complier sẽ quyết định có nên sử dụng hàm inline này không dựa trên kích thước và độ phức tạp của hàm.
+
+	inline void my_Function(void){
+		printf("Hello Embedded World!\n");
+	}
+
+3. Một số trường hợp nên dùng hàm inline:
+	- Hàm nhỏ và đơn giản
+	- Gọi hàm nhiều lần 
+	- Tối ưu hóa hiệu suất: tăng tốc độ thực thi 
+	- Hàm không có trạng thái (Không thay đổi biến toàn cụ hoặc không có hiệu ứng phụ)
+	- Khi cần tăng tính rõ ràng của mã
+
+4. Một số trường hợp complier sẽ bỏ qua từ khóa "inline"
+	- Hàm quá lớn
+	- Hàm có nhiều nhánh điều kiện
+	- Hàm có tham số không thể xác định
+	- Hàm có hiệu ứng phụ
+	- Hàm được định nghĩa trong file source khác
+	- Số lượng gọi hàm là quá ít
+	- Cấu trúc hoặc lớp
+
+
+5. Inline function với GCC Complier
+	- Gcc có thể coi Inline Function như một phần của quá trình tối ưu hóa - Optimization. Nên việc gọi Inline function sẽ không thành công do quá trình linker không thể tham chiếu tới hàm này.
+	- Các giải quyết là tắt Optimization nếu có thể hoặc thêm từ khóa "static" vào trước hàm inline để làm linker kiểm tra và tham chiếu đến inline.

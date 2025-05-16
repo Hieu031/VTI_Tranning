@@ -1,0 +1,61 @@
+Let's start with understanding few properties of the sender receiver interface.
+
+It's a model for the asynchronous distribution of information where a sender distributes information
+
+to one or several receivers.
+
+The sender is not blocked, meaning it's an asynchronous communication and neither expects nor gets
+
+a response from the receiver.
+
+The sender just provides the information and the receivers decide autonomously when and how to use it.
+
+It is the responsibility of the communication infrastructure, which is the RTE to distribute
+
+the information to the receivers.
+
+The sender does not know the identity or the number of end receivers as we;;.
+
+When a software company wants to send a data, we create a provider port on that component.
+
+The opposite side can be a different component.
+
+who wants this data.
+
+We create a Receiver Port on this component and connect it to the provider.
+
+This connection is called a one-to-one communication, where we one component sending and just one component
+
+receiving it.
+
+One too many or 1:N type of communication is when we have one provider and many components to
+
+receive this data.
+
+An alternate possibility of many to one or M:1 type of communication is also possible for
+
+sender receiver communications, where we have multiple providers with one receiver.
+
+Autosar does not support many too many or M:N type of communications. It's not allowed to have more
+
+than one provider and more than one receiver for the same data.
+
+From the configuration side, we first create the sender receiver interface and specify the data that
+
+is to be communicated in the variable data prototype.
+
+The short name of the variable data prototype defines the name of the interface that is meant to
+
+be communicated.
+
+The additional properties of this interface, for example, its units, computation method, etc.,
+
+can be provided from the Application-primitive or Application-Record data type within the sender receiver interface.
+
+We could also have multiple data being sent on the same port. For this we can specify multiple variables
+
+data prototypes in the same sender receiver interface.
+
+Next, we create a Port on the component and link this created sender receiver interface to it.
+
+This completes the sender receiver configuration and the portal linking for a Software component. (Demo Covers the complete configuration)

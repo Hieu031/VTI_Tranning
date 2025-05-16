@@ -1,0 +1,112 @@
+And next, continues the name of the receiver port.
+
+And the next is the name of the client server operation that's within the client server interface.
+
+The next comes the important point, which is the arguments.
+
+The arguments can be of three types based on the direction which is the IN or OUT or INOUT.
+
+The function parameters are framed based on this.
+
+Looking at the C file at the client site, let's assume that "Function_1" wants to call this server and here
+
+we use the RTE_Call API.
+
+Like described here Function_1, wants to add two numbers and the sum function is to be called from
+
+the server side.
+
+For example, we define two input interfaces as X and Y and a Sum interface to get back the result.
+
+Like the other APIs we already saw, the framing of the function name is quite easy.
+
+The prefix of the function Rte_Call comes from the standards as it is.
+
+We take the name of the receiver port as the next name, since this is a call from the client side who
+
+has the receive port.
+
+The next is the Client Server operation name that's configured within the Client server interface.
+
+This is how the function name to call the server is framed from the client side.
+
+Now, the parameters of the function call should be matching with the configured Client Server arguments.
+
+From the standards, we could see that the Client Server arguments can be of any number based on the configuration.
+
+We can refer to the operation arguments and fill this up.
+
+For arguments for the direction "IN" which could just specify the interface or pass the arguments as values.
+
+And for "OUT" or "INOUT" direction, it's expected that the arguments should be passed as reference or pointers
+
+reference or pointers
+
+so the server function
+
+can edit or write to them
+
+The sequence of the arguments should also be the same as in the configuration.
+
+For the client server, we shall see how the RTE code for this API will really look like.
+
+RTE will generate this code from its site with a server function wrapped around it.
+
+Here the Server function on the provider port side
+
+is mapped to this Runnable called "Sum" and RTE calls this function within
+
+We're just passing the same arguments that it was called.
+
+If the operation was successful, then RTE returns back an OK status, so the application on the
+
+client side knows that the call to the server was successful.
+
+Hope the usage of the RTE API was clear for Client Server interfaces.
+
+Likewise, we could look upon the standards for the other interface APIs and derive the function names
+
+to access the ports on our application layer code.
+
+
+RTE APIs (Client Server Interface)
+
+<P-PORT-PROTOTYPE>
+	<SHORT-NAME>PP_ServerMath</SHORT-NAME> 
+	<PROVIDED-INTERFACE-TREF DEST = "CLIENT-SERVER-INTERFACE">/PortInterfaces/IF_Math</PROVIDED-INTERFACE-TREF>
+</P-PORT-PROTOTYPE>
+<R-PORT_PROTOTYPE>
+	<SHORT-NAME>RP_ClientMath</SHORT-NAME>
+	<PROVIDED-INTERFACE-TREF DEST = "CLIENT-SERVER-INTERFACE">/PortInterfaces/IF_Math</PROVIDED-INTERFACE-TREF>
+</R-P-PORT-PROTOTYPE>
+<CLIENT-SERVER-INTERFACE>
+	<SHORT-NAME>IF_Math</SHORT-NAME>
+	<OPERATION>
+		<CLIENT-SERVER-OPERATION>
+			<SHORT-NAME>Sum</SHORT-NAME>
+			<ARGUMENTS>
+				<ARGUMENTS-DATA-PROTOTYPE>
+					<SHORT-NAME>x</SHORT-NAME>
+					<DIRECTION>IN</DIRECTION>
+				</ARGUMENTS-DATA-PROTOTYPE>
+				<ARGUMENTS-DATA-PROTOTYPE>
+					<SHORT-NAME>y</SHORT-NAME>
+					<DIRECTION>IN</DIRECTION>
+				</ARGUMENTS-DATA-PROTOTYPE>
+				<ARGUMENTS-DATA-PROTOTYPE>
+					<SHORT-NAME>s</SHORT-NAME>
+					<DIRECTION>OUT</DIRECTION>
+				</ARGUMENTS-DATA-PROTOTYPE>
+			</ARGUMENTS>
+			<POSIBLE-ERROR-REFS>
+				<POSIBLE-ERROR-REF DEST = "APPLICATION-ERROR">/PortInterfaces/IF_Math/E_NOTOK</POSIBLE-ERROR-REF>
+			</POSIBLE-ERROR-REFS>
+		</CLIENT-SERVER-OPERATION>
+	</OPERATION>	
+	<POSIBLE-ERROR>
+		<APPLICATION-ERROR>
+			<SHORT-NAME>E_NOTOK</SHORT-NAME>
+			<ERROR-CODE>0</ERROR-CODE>
+		</APPLICATION-ERROR>
+	</POSIBLE-ERROR>
+</CLIENT-SERVER-INTERFACE>

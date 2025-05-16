@@ -1,0 +1,155 @@
+Events are additional configuration to Runnable that specifies the operating system on how to call or
+
+schedule a Runnable.
+
+Runnables are mapped to the RTE events and further the operating system and the RTE layer together ensure
+
+that the runnable function is called in an expected manner. In case the OS needs to start a Runnable
+
+when the corresponding event occurs,
+
+The RTE event can directly reference the runnable that needs to be started. When the software component
+
+description uses this feature,
+
+It is the responsibility of the OS to start the Runnable when the event occurs.
+
+Similar to Runnable properties, the RTE events can be categorized as well.
+
+Please note that Autosar does not categorize the events like we are going to see here, but this is for
+
+our easy understanding i have segregated them based on their usage.
+
+First the generic events, it can be a collection of events that are quite common like the Init event,
+
+timing event, external trigger occurred event, Internal trigger occurred event and the background event.
+
+Init event is used to specify that a Runnable is meant to be called only once and the Runnable is just for
+
+initialization of the software during startup.
+
+Next, the timing events are used when we need the operating system to call the runnables in a timing period
+
+period.
+
+For example, if we have a runnable, that has to be called periodically every 100ms once,
+
+then we create a timing event and map this runnable to it and the operating system calls this runnable
+
+based on the configured period.
+
+The trigger events are used in case a Runnable has to be triggered only when a trigger event occurs.
+
+This is associated with a trigger interface type where we expect triggers to happen.
+
+Background event is used for runnables that need to be run at background. The operating system will call
+
+the mapped runnables to a background event while the core is idle.
+
+Next category will be for Client Servers. Operation Invoked event is used on the server side of a
+
+client server communication.
+
+This event mentions the runnable to be called when a client requests a server execution through a Synchronous
+
+or an asynchronous call.
+
+The asynchronous server result event is raised when an asynchronous server call is finished.
+
+The associated runnable to this event is called when this Event Occurs.
+
+The next category is the data related events.
+
+Runnables can be triggered based on data as well.
+
+Data Write complete or a Data Send complete event is associated with a provider port.
+
+It mentions to call a Runnable when a data has been sent on a provider port.
+
+The data receive event or data receive error event is associated with a receiver port and it is triggered when a
+
+data is received on a port or when there was an error during reception.
+
+This kind of event is mostly used for core runtime optimization that the functionality is run only when it's
+
+needed and not always.
+
+Finally, the Mode related events.
+
+They are associated with Ports with Mode Switch interfaces.
+
+Like already mentioned in the previous sections about the Mode interfaces they're used whenever there
+
+are predefined states in the system.
+
+And these special events gives additional advantage to use Mode effectively.
+
+The Mode Switch event is used whenever there was a state change in a particular mode and to trigger
+
+the associated runnable when it occurs.
+
+An example here is that in case we have modes for head light,
+
+we could point a runnable to be called whenever the head light goes to OFF state or ON state.
+
+The rest of the supporting events like Mode Manager Error Event and Mode Switch Acknowledgement event
+
+are used in case an error happens or when the Mode switches are acknowledged.
+
+Considering the same older example from runnables, let's take the same software component where we had
+
+4 runnables in it.
+
+Each runnable should be mapped to an event to activate it.
+
+As examples, we can map the "Sum" runnable to timing, even so the "Sum" function is called always periodically
+
+at particular time intervals.
+
+The next "Diff" function is called whenever a client calls this from the client server interface port,
+
+since we map this to an operation invoked event.
+
+"Mul" runnable is triggered whenever there is a new data received on a receiver port, since
+
+we use a data received event here
+
+The "Div" runnable is mapped to a Mode Switch event, and this will be called only when a particular
+
+Mode is activated.
+
+A sample configuration on the events will look like is here.
+
+The events are configured above the runnables and comes within the event tag.
+
+The type of event is differentiated based on the tag names and they take special properties within.
+
+The timing event refers to the runnable that it has to call and it has an additional input called period
+
+that has the timing information on when to call the runnable.
+
+The period of timing event is to be mentioned in second format, and here 0.1 represents a
+
+100ms period.
+
+The Init event is called only once, and here we don't have a period mentioned compared to the timing event
+
+event.
+
+We only have a runnable reference mentioned to be called during initialization.
+
+The data received event like already mentioned, is associated with a receiver port, and it means that
+
+the runnable is called only when a data is received on that particular port.
+
+Here we have a reference to a receiver port and the callable Runnable entity.
+
+The operation invoked event is associated with the client server communication, and it's for the server
+
+where we have the provider port.
+
+Here we have the corresponding provider port and the client server interface operation associated with it
+
+it.
+
+Hope it was clear on how to choose the events from the available options based on our software needs.

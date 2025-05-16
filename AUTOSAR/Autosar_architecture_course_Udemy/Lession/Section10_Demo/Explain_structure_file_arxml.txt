@@ -1,0 +1,119 @@
+
+
+1. Khai báo đầu file XML
+<?xml version="1.0" encoding="UTF-8"?> 
+	- Khai báo phiên bản XML (1.0) và mã hóa ký tự (UTF-8)
+	
+2. Phần tử gốc <AUTOSAR>
+<AUTOSAR xmlns="http://autosar.org/schema/r4.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://autosar.org/schema/r4.0 AUTOSAR_00046.xsd">
+	- xmlns : chỉ ra namespace mặc định cuar AUtOSAR v4.0
+	- xmlns:xsi : dùng cho XML Schema Instance
+	- xsi:schemaLocation : chỉ file XSD dùng để xác thực cấu trúc
+	
+3. Khối <AR-PACKAGES>
+	 - Đóng gói các package (gói) AUTOSAR. Trong thực tế có thể có nhiều <AR-PACKAGES>, ở đây chỉ có một
+	 
+4. Gói <AR-PACKAGES> với tên "Interfaces"
+<AR-PACKAGE>
+  <SHORT-NAME>Interfaces</SHORT-NAME>
+  <ELEMENTS>
+    …
+  </ELEMENTS>
+</AR-PACKAGE>
+	
+	- <SHORT-NAME> : Tên ngắn của gói này (là "Interfaces")
+	- <ELEMENTS> : Chứa các phần tử con (interfaces) nằm trong gói
+	
+5. Sender-Received Interface: I_Temperature
+<SENDER-RECEIVER-INTERFACE>
+  <SHORT-NAME>I_Temperature</SHORT-NAME>
+  <DATA-ELEMENTS>
+    <VARIABLE-DATA-PROTOTYPE>
+      <SHORT-NAME>Temperature</SHORT-NAME>
+      <SW-DATA-DEF-PROPS>
+        <SW-DATA-DEF-PROPS-VARIANTS>
+          <SW-DATA-DEF-PROPS-CONDITIONAL>
+            <IMPLEMENTATION-DATA-TYPE-REF DEST="IMPLEMENTATION-DATA-TYPE">
+              /AUTOSAR_PlatformTypes/ImplementationDataTypes/float32
+            </IMPLEMENTATION-DATA-TYPE-REF>
+          </SW-DATA-DEF-PROPS-CONDITIONAL>
+        </SW-DATA-DEF-PROPS-VARIANTS>
+      </SW-DATA-DEF-PROPS>
+    </VARIABLE-DATA-PROTOTYPE>
+  </DATA-ELEMENTS>
+</SENDER-RECEIVER-INTERFACE>
+
+	- Mục đích: định nghĩa một cổng giao tiếp theo mô hình "gửi-nhận" (publisher - subscriber)
+	- <SHORT-NAME>Temperature</SHORT-NAME> : Tên của Interface
+	- </VARIABLE-DATA-PROTOTYPE> : định nghĩa một biến dữ liệu truyền đi tên là Temperature
+	- </IMPLEMENTATION-DATA-TYPE-REF> : Tham chiếu đến kiểu dữ liệu đã định nghĩa (ở đây là float32)
+	
+6. Client-Server Interface: I_StartMotor
+<CLIENT-SERVER-INTERFACE>
+  <SHORT-NAME>I_StartMotor</SHORT-NAME>
+  <OPERATIONS>
+    <CLIENT-SERVER-OPERATION>
+      <SHORT-NAME>StartMotor</SHORT-NAME>
+      <ARGUMENTS>
+        <ARGUMENT-DATA-PROTOTYPE>
+          <SHORT-NAME>FanSpeed</SHORT-NAME>
+          <TYPE-TREF DEST="IMPLEMENTATION-DATA-TYPE">
+            /AUTOSAR_PlatformTypes/ImplementationDataTypes/uint8
+          </TYPE-TREF>
+          <DIRECTION>IN</DIRECTION>
+        </ARGUMENT-DATA-PROTOTYPE>
+      </ARGUMENTS>
+      <POSSIBLE-ERROR-REFS>
+        <POSSIBLE-ERROR-REF DEST="APPLICATION-ERROR">/Interfaces/I_StartMotor/E_OK</POSSIBLE-ERROR-REF>
+        <POSSIBLE-ERROR-REF DEST="APPLICATION-ERROR">/Interfaces/I_StartMotor/E_NOT_OK</POSSIBLE-ERROR-REF>
+      </POSSIBLE-ERROR-REFS>
+    </CLIENT-SERVER-OPERATION>
+  </OPERATIONS>
+  <POSSIBLE-ERRORS>
+    <APPLICATION-ERROR>
+      <SHORT-NAME>E_OK</SHORT-NAME>
+      <ERROR-CODE>0</ERROR-CODE>
+    </APPLICATION-ERROR>
+    <APPLICATION-ERROR>
+      <SHORT-NAME>E_NOT_OK</SHORT-NAME>
+      <ERROR-CODE>1</ERROR-CODE>
+    </APPLICATION-ERROR>
+  </POSSIBLE-ERRORS>
+</CLIENT-SERVER-INTERFACE>
+
+	- Mô hình: RPC (Remote procedure call) - client gọi sever thực thi "StartMotor"
+	- <ARGUMENT-DATA-PROTOTYPE> : Định nghĩa tham số "FanSpeed" kiểu "uint8", hướng "IN"
+	- <POSSIBLE-ERROR-REFS> : Tham chiếu đến các lỗi có thể trả về
+	- <POSSIBLE-ERRORS> : liệt kê chi tiết mã lỗi
+		+ E_OK (code 0) - Thành công
+		+ E_NOT_OK (code 1) - thất bại
+		
+7. Client-Server Interface: I_StopMotor
+<CLIENT-SERVER-INTERFACE>
+  <SHORT-NAME>I_StopMotor</SHORT-NAME>
+  <OPERATIONS>
+    <CLIENT-SERVER-OPERATION>
+      <SHORT-NAME>StopMotor</SHORT-NAME>
+      <POSSIBLE-ERROR-REFS>
+        <POSSIBLE-ERROR-REF DEST="APPLICATION-ERROR">/Interfaces/I_StopMotor/E_OK</POSSIBLE-ERROR-REF>
+        <POSSIBLE-ERROR-REF DEST="APPLICATION-ERROR">/Interfaces/I_StopMotor/E_NOT_OK</POSSIBLE-ERROR-REF>
+      </POSSIBLE-ERROR-REFS>
+    </CLIENT-SERVER-OPERATION>
+  </OPERATIONS>
+  <POSSIBLE-ERRORS>
+    <APPLICATION-ERROR>
+      <SHORT-NAME>E_OK</SHORT-NAME>
+      <ERROR-CODE>0</ERROR-CODE>
+    </APPLICATION-ERROR>
+    <APPLICATION-ERROR>
+      <SHORT-NAME>E_NOT_OK</SHORT-NAME>
+      <ERROR-CODE>1</ERROR-CODE>
+    </APPLICATION-ERROR>
+  </POSSIBLE-ERRORS>
+</CLIENT-SERVER-INTERFACE>
+
+	- Tương tự như "I_StartMotor" nhưng không có thao tác đầu vào, chỉ có thao tác dừng motỏ và trả về lỗi tương tự.
+	
+	

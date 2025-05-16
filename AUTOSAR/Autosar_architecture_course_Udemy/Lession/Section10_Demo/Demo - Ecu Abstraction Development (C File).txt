@@ -1,0 +1,255 @@
+We now have the ARXML configuration complete.
+
+And we will start with the C file development.
+
+To edit the C file we will use Notepad++
+
+We will need the developed software component configuration as well in parallel, and we will have this as a reference for
+
+our C file development.
+
+I'll put this on another view so it's easy for us.
+
+We will have the arxml's on the right tab, and i will the interfaces ARXML as well that they have
+
+developed.
+
+To develop the C file, we will use this ARXML's now as reference.
+
+We will begin to write our C code. All software components C files should begin with the RTE application header to include
+
+the RTE generated APIs for the configurations we made in the ARXML
+
+And this also acts as a bridge between our ARXML and the C file
+
+The header will have the prefix RTE_, and this comes from the standards
+
+The next name will be exactly the name of the component that we are configured and a ".h"
+
+This format of the header is common for all software components we develope
+
+We'll go to the next to write our code for the runnables we have configured in a software component.
+
+I'll take the first Runnable, which we have configured for ReadTemperature and we will write our first function
+
+for this.
+
+We have to take the symbol name because this is our C identifier and the function name should be exactly this.
+
+Now, we have created the function for our runnable entity.
+
+The function ReadTemperature should basically do the following. It should trigger the ADC conversion and
+
+read its results from the ADC MCAL layer that we have developed and pass the converted value to the upper application layer
+
+layer.
+
+We'll go to our developed ADC file
+
+To trigger the ADC conversion will have to use the standardized interface ADC start group conversion,
+
+and I'm copying this to our function.
+
+As a parameter, we have to provide the ADC channel ID and let's assume it's 1.
+
+This will trigger the ADC conversion. Next, we'll go to the read results part.
+
+I'm going back to the ADC MCAL driver and we'll use this ADC_ReadGroup API.
+
+Just adjusting it
+
+I'm going to change the group parameter to 1 for which we triggered the conversion before
+
+And the next is the parameter where the ADC will write back the results
+
+I will define this interface first
+
+And we can use the maximum uint16 as well to make it simple
+
+I'm passing this local variable to get back the results
+
+This completes our code to interact with the lower MCAL layer and get the ADC results converted
+
+The next is the function of the current ECU abstraction layer where it should convert the raw
+
+ADC values into the real voltage or current for the particular ADC pin
+
+To calculate this, let's assume it's a 10bit ADC with a voltage reference of 2.5V
+
+Using this we will calculate the actual voltage on the pin
+
+So I'm defending a local variable, using a local variable here as pin voltage
+
+And voltage reference (2.5) / 1024 which is the maximum of a 10 bit ADC
+
+And multiplying the results with the raw value.
+
+I'm not going in deep about the ADC and its calculation's, since this is not our topic, but basically
+
+you can have any calculation's here to make the voltage conversion.
+
+Next we will convert the voltage to equivalent temperature, and this differs with the different temperature sensor
+
+we use.
+
+This part of the conversion should be done in the Sensor Actuator software component that's on the application
+
+layer, but to reduce our demo complexity with the minimal components
+
+I'm going to write this code over here
+
+here
+
+We are going to make the conversion and let's assume that temperature sensor produces a voltage output equal
+
+to the factor of the temperature like most of the temperature sensors work.
+
+Let's assume that for 35 degree, the output voltage of the sensor is 0.35V
+
+0.35V
+
+And for calculating the temperature,
+
+It would be just a multiplication factor of hundred with the pin voltage.
+
+So our temperature is calculated now from the pin voltage
+
+And like already mentioned, this has to be done from the sense actuator software component.
+
+Next, we have to write this temperature result to RTE so the other components can use it.
+
+We have mentioned this in the read access of the runnable as well
+
+So this will be our provider port on where we we have to write the results to
+
+We use the RTE API "RTE_Write"
+
+"RTE_Write"
+
+And followed by the port name, which is the PP_Temperature
+
+And next the variable data prototype name from the sender receiver interface.
+
+I'm going to the interface definitions and here we have the corresponding sender receiver interface
+
+and inside we have the variable data prototype name.
+
+I'm taking this
+
+This forms our API function, and we have to pass the data as an argument.
+
+So i am passing the temperature data that we have already calculated over here
+
+We are done!
+
+And as a quick summary,
+
+We read the ADC values from the ADC driver, calculate the actual voltage and calculate the temperature.
+
+And please note that this part of the calculation of the temperature should be on the sensor actuator
+
+software component.
+
+I missed to define the local interfaces and just defining them
+
+So this completes our ReadTemperature function.
+
+We'll go to the next Runnable now
+
+which is the StartMotor Service
+
+I'm going back to our runnable definition for start motor
+
+And will take the symbol name
+
+And will take the symbol name which is a C identifier and write our function.
+
+The function takes in one parameter as fan speed, and we refer this to our client server interface
+
+definition.
+
+The data type of this argument is uint8, and the direction is input.
+
+So we define this argument to our function
+
+Next, we have to write our functionality to switch ON the cooling fan and we use the fan speed parameter.
+
+Let's say if the fan speed was less than 50, then we run the motor on Half speed.
+
+Let's also assume that if we set the IO Pins of the H-Bridge as 1 and 0 logic on the controlled pins
+
+then the fan speed will be running on minimum.
+
+I have to write to the IO Pins and we use the DIO driver of the MCAL layer.
+
+We use the standardized interface DIO_WriteChannel
+
+And our parameters will be Channel ID and the voltage level, a STD_HIGH or STD_LOW
+
+So I'm taking this to our C file
+
+Let's say the corresponding pin is channel ID 10 and we set this to STD_HIGH
+
+I'm taking a copy here
+
+Similarly, let's assume that the other pin ID's channel of the H-Bridge is 11, and we set this
+
+to STD_LOW
+
+Please note that this is just an imaginary channel ID that we use here as 10 and 11, and this will
+
+vary based on our hardware and port configurations and the standard high and low are the macros that are defined
+
+defined in our DIO Driver
+
+defined in our DIO Driver
+
+We will write the else part for full speed operation
+
+And let's assume that setting both the pins HIGH would run the fan at full speed.
+
+I'm copying the same DIO_WriteChannel that we already wrote
+
+And setting both the pins to HIGH
+
+This completes the server side function code for start motor runnable.
+
+So a summary here
+
+Using the fan speed parameter, we have switched on the motor with low speed or high speed based on the
+
+logics that the external H-Bridge driver supports
+
+Now,
+
+we move to the stop motor runnable
+
+And note here that the stop motor does not have any arguments and we just need the function name
+
+which we are going to take it again from the symbol tag of the Runnable.
+
+Let's assume here again if we set the IO pins both to LOW, then the fan stops.
+
+I'm going to reuse again the standardized interfaces
+
+And change IO's to Standard LOW.
+
+With this we complete the server side code for StopMotor Runnable.
+
+To make a review, this ECU abstraction component is responsible to interface with the lower MCAL
+
+drivers that we see here.
+
+And write the calculated data to the upper layer through RTE with its API's.
+
+The RTE header include has the API definitions that we used, for example.
+
+the code for Rte_Write function
+
+the code for Rte_Write function
+
+that we have used and header is auto generated from the RTE generator with the components ARXML as input
+
+as input
+
+This completes our ECU abstraction software component development including its C files
