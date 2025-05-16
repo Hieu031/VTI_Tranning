@@ -1,0 +1,16 @@
+14:36:57 **** Build of configuration Debug for project stm32f401re_mpu_test_hardfault_memfault ****
+make -j8 all 
+arm-none-eabi-gcc -o "stm32f401re_mpu_test_hardfault_memfault.elf" @"objects.list"   -mcpu=cortex-m4 -T"D:\Workplace\STM32\MPU\stm32f401re_mpu_test_hardfault_memfault\STM32F401RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="stm32f401re_mpu_test_hardfault_memfault.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: stm32f401re_mpu_test_hardfault_memfault.elf
+ 
+arm-none-eabi-size  stm32f401re_mpu_test_hardfault_memfault.elf 
+arm-none-eabi-objdump -h -S stm32f401re_mpu_test_hardfault_memfault.elf  > "stm32f401re_mpu_test_hardfault_memfault.list"
+   text	   data	    bss	    dec	    hex	filename
+    900	      4	   1564	   2468	    9a4	stm32f401re_mpu_test_hardfault_memfault.elf
+Finished building: default.size.stdout
+ 
+Finished building: stm32f401re_mpu_test_hardfault_memfault.list
+ 
+
+14:36:59 Build Finished. 0 errors, 0 warnings. (took 2s.151ms)
+

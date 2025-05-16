@@ -1,0 +1,66 @@
+/* USER CODE BEGIN Header */
+/**
+  ******************************************************************************
+  * @file           : main.c
+  * @brief          : Main program body
+  ******************************************************************************
+  * @attention
+  *
+  * Copyright (c) 2025 STMicroelectronics.
+  * All rights reserved.
+  *
+  * This software is licensed under terms that can be found in the LICENSE file
+  * in the root directory of this software component.
+  * If no LICENSE file comes with this software, it is provided AS-IS.
+  *
+  ******************************************************************************
+  */
+#include "mpu_driver.h"
+
+void MemManage_Handler(void){
+	uint32_t faultAddr;
+	    uint8_t faultStatus;
+	    MPU_GetErrorDetails(&faultAddr, &faultStatus);
+	    if (faultStatus & MPU_FAULT_DACCVIOL) {
+	        // Handler error Data Access Violation
+	    }
+	    while (1); // Debug error
+}
+
+void HardFault_Handler(void){
+	uint32_t faultAddr;
+	    uint8_t faultStatus;
+	    MPU_GetErrorDetails(&faultAddr, &faultStatus);
+	    if (faultStatus & MPU_FAULT_DACCVIOL) {
+	        // Handler error Data Access Violation
+	    }
+	    while (1); // Debug error
+}
+
+
+int main(void) {
+    // Configure 2 regions to test
+    MPU_RegionConfig_t regions[] = {
+        {0, 0x00000000, 31, MPU_MEM_STRONG_ORDER, MPU_ACCESS_FULL, 1},      // Region 0: Background
+        {1, 0x40000000, 9, MPU_MEM_NORMAL_NONCACHE, MPU_ACCESS_FULL, 1} // Region 1: Test
+    };
+    MPU_Config_t mpuConfig = {
+        MPU_ENABLE_DEFAULT_MEM, MPU_ENABLE_IN_EXCEPTION, 1, regions, 2
+    };
+
+    // Initialize MPU
+    MPU_Init(&mpuConfig);
+
+    // Test error: write into Region 1 (Read Only)
+    volatile uint32_t* test_addr = (uint32_t*)0x40000000;
+    *test_addr = 0xDEADBEEF; // Get MemFault
+
+    // Change Region 1 to Full Access after test error
+    MPU_RegionConfig_t newRegion = {1, 0x40000000, 9, MPU_MEM_NORMAL_NONCACHE, MPU_ACCESS_READ_ONLY, 1};
+    MPU_SetRegionConfig(&newRegion);
+
+    // Re-test to check and won't get fault
+    *test_addr = 0x12345678;
+
+    while (1);
+}
