@@ -1,0 +1,32 @@
+Cách viết driver cho ngoại vi Vi Điều Khiển
+
+1. Chuẩn bị môi trường và tài liệu về ngoại vi cần làm
+- Toolchain & IDE: GCC-ARM (arm-none-eabi-gcc), Keil uVision, IAR hoặc VSCode + PlatformIO...
+- Board/EVM: Có sẵn bo mạch phát triển hoặc module MPU (STM32, NXP,...)
+- Datasheet & Reference Manual: Đọc kỹ phần mô tả ngoại vi (register map, bitfield, timing) của nhà sản xuất.
+- CMSIS/HAL/BSP: tham khảo các khởi tạo, điều khiển ngoại vi.
+
+2. Hiểu kiến trúc MPU và ngoại vi
+- Bus & Cock: Xác định ngoại vi nằm trên bus nào (APB1,...) và cách enable/disable clock cho bus đó.
+- GPIO & Pin Multiplexing: Chọn chân kết nối, cấu hình chức năng, tốc độ, pull-up, pull-down.
+- NVIC/Interrupt Controller: Cấu hình ưu tiên ngắt và enable ngắt nếu driver cần dùng interrupt.
+
+3. Thiết kế API và kiến trúc driver
+- Layer absrtraction: 
+	+ low-level driver (direct register access)
+	+ mid-level driver (HAL/register wrapper)
+	+ high-level service (Example: file-system, communication stack,...)
+- Định nghĩa các hàm cơ bản như hàm khởi tạo, chức năng cơ bản của ngoại vi,...
+- Thiết kế cấu trúc dữ liệu handle để lưu trạng thái, con trỏ đến thanh ghi, buffer, callback,..
+
+4. Viết mã khởi tạo, read/write, IRQ handler
+- Enable clock
+- Cấu hình GPIO
+- Cấu hình ngoại vi
+- Nếu dùng ngắt thì thêm cấu hình cho ngắt
+
+5. Kiểm thử, debug với logic analyzer và debugger
+
+6. Tích hợp DMA và RTOS nếu cần
+
+7. Chú trọng error handling, power managerment và tài liệu hóa.

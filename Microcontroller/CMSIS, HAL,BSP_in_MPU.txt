@@ -1,0 +1,21 @@
+CMSIS, HAL and BSP trong khởi tạo và điều khiển ngoại vi MPU
+1. CMSIS (Cortex Microcontroller Software Interface Standard)
+	- Định nghĩa: Bộ chuẩn do ARM đề xuất, cung cấp một tầng trừu tượng thống nhất cho phần lõi Cortex-M và một số thư viện hỗ trợ (DSP, RTOS, driver)
+	- Các thành phần chính:
+	1. CMSIS-core: định nghĩa các hàm truy cập register lõi (NVIC, Systick, SCB...), marco, typedef cho kiểu dữ liệu và vector table.
+	2. CMSIS-driver: bộ API chuẩn cho các thiết bị ngoại vi phổ biến (UART, SPI,..) cho phép viết code driver độc lập với hãng silicon.
+	3. CMSIS-RTOS API: chuẩn chung cho RTOS (hàm tạo task, semaphore, mutex...) để có thể chuẩn đổi giữa các RTOS khác nhau.
+	4. CMSIS-DSP: Thư viện thuật toán số học tối ưu cho Cortex-M (FFT, filter, matrix,...)
+	5. CMSIS-Pack: định dạng gói chứa device description, header, driver, middleware, giúp IDE tự động quản lý.
+	- Ứng dụng được thể hiện khi viết driver:
+	+ Có thể dụng trực tiếp CMSIS-core để thao tác register lõi NVIC, Systic.
+	+ Dùng CMSIS-driver để gọi API chung, dễ dàng tái sử dụng giữa các dòng MCU.
+
+2. HAL (Hardware Abstraction layer)
+	- Định nghĩa: Thư viện do hãng silicon (ST, NXP, TI,...) cung cấp, bao bọc quang register ngoại vi để khởi tạo, cấu hình và điều khiển VDK nhanh hơn.
+	- Ưu điểm: Lập trình nhanh, ít sai sót; tài liệu phong phú.
+	- Nhược điểm: Code "nặng" hơn, có thể ẩn đi chi tiết register quan trọng khi debug sâu.
+
+3. BSP (Board Support Package)
+	- Định nghĩa: Code khởi tạo và cấu hình dành riêng cho từng bo mạch cụ thể
+	- Giúp tách rõ phần khởi tạo bo mạch (BSP) và phần logic ứng dụng (app code).
